@@ -14,8 +14,8 @@ require 'pry'
 module Concerns::Searchable
 
   def compile_by_name
-    list = self.all.sort{|a,b| a.name <=> b.name}.uniq
-    list.each_with_index{|obj,ind| yield(obj,ind)}
+    # list = self.all.sort{|a,b| a.name <=> b.name}.uniq
+    # list.each_with_index{|obj,ind| yield(obj,ind)}
   end
 
   # def list_songs_from(source)

@@ -7,7 +7,7 @@ class CL_Scraper
   attr_reader :item, :category
 
   def initialize(url="https://seattle.craigslist.org", item, category)
-    @url = url if url
+    @url = url if url #default to seattle for now
     @item = item
     @category = category
   end
