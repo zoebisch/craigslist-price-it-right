@@ -6,7 +6,8 @@ require_relative './item.rb'
 class CL_Scraper
   attr_reader :item, :category
 
-  def initialize(item, category)
+  def initialize(url="https://seattle.craigslist.org", item, category)
+    @url = url if url
     @item = item
     @category = category
   end
@@ -29,8 +30,3 @@ class CL_Scraper
   end
 
 end
-
-
-scraped = CL_Scraper.new("chair", "furniture")
-blah = Item.create_from_collection(scraped.scrape_category)
-binding.pry
