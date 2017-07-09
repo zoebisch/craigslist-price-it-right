@@ -4,7 +4,7 @@ require 'pry'
 
 class CL_Scraper
   attr_reader :item, :category
-  attr_accessor :link, :id, :description, :price, :condition, :location, :flag
+  #attr_accessor :link, :id, :description, :price, :condition, :location, :flag
   @@items = []
 
   def initialize(item, category)
