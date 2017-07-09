@@ -1,11 +1,10 @@
 require 'open-uri'
 require 'nokogiri'
 require 'pry'
+require_relative './item.rb'
 
 class CL_Scraper
   attr_reader :item, :category
-  #attr_accessor :link, :id, :description, :price, :condition, :location, :flag
-  @@items = []
 
   def initialize(item, category)
     @item = item
@@ -15,27 +14,23 @@ class CL_Scraper
   def scrape_category
     index_url = "https://seattle.craigslist.org/search/fua"
     listings = Nokogiri::HTML(open(index_url))
-
+    item_array = []
     item_list = listings.search(".rows .result-row")
     item_list.each do |item| #Collect and parse item data
       item_info = {}
-      item_info[:link] = item.search("a").attribute("href").text
+      item_info[:pid] = item.attribute("data-pid").text
+      item_info[:link] = item.search("a")[1].attribute("href").text
       item_info[:price] = item.search(".result-price").first.text if item.search(".result-price").first != nil
-      item_info[:words] = item.search(".result-title").text
+      item_info[:title] = item.search(".result-title").text
       item_info[:location] = item.search(".result-info .result-meta .result-hood").text
-      @@items << item_info
+      item_array << item_info
     end
-    @@items
-  end
-  #item_info[:id] = item.search("a").attribute("data-id").text
-  #item_info[:condition] =
-  def all
-    @@items
+    item_array
   end
 
 end
 
 
 scraped = CL_Scraper.new("chair", "furniture")
-scraped.scrape_category
-puts "#{scraped.all}"
+blah = Item.create_from_collection(scraped.scrape_category)
+binding.pry
