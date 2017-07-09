@@ -6,6 +6,6 @@ class PriceManager
     CL_Scraper.new(url)
   end
 end
-scraped = CL_Scraper.new("chair", "furniture")
-blah = Item.create_from_collection(scraped.scrape_category)
-binding.pry
+# scraped = CL_Scraper.new("chair", "furniture")
+# blah = Item.create_from_collection(scraped.scrape_category)
+# binding.pry
