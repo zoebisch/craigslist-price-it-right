@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 require 'pry'
-
+#TODO: expand to search ALL listings to all pages
 class CL_Scraper
   attr_reader :item, :category
 

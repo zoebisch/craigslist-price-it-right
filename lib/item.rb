@@ -11,8 +11,8 @@ class Item
     item_array.each{|hash| Item.new(hash)}
   end
 
-  def self.all
-    @@all
-  end
+  # def self.all
+  #   @@all
+  # end
 
 end
