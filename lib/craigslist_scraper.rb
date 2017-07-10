@@ -1,14 +1,12 @@
 require 'open-uri'
 require 'nokogiri'
 require 'pry'
-require_relative './item.rb'
 
 class CL_Scraper
   attr_reader :item, :category
 
-  def initialize(url="https://seattle.craigslist.org", item, category)
-    @url = url if url #default to seattle for now
-    @item = item
+  def initialize(url="https://seattle.craigslist.org", category)
+    @url = url if url
     @category = category
   end
 
