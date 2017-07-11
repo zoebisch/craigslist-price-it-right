@@ -1,4 +1,6 @@
 class Item
+  extend Concerns::Searchable
+  extend Concerns::Statistical
   attr_accessor :link, :pid, :title, :price, :condition, :location
   @@all = []
 
@@ -11,8 +13,8 @@ class Item
     item_array.each{|hash| Item.new(hash)}
   end
 
-  # def self.all
-  #   @@all
-  # end
+  def self.all
+    @@all
+  end
 
 end

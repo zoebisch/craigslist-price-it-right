@@ -13,7 +13,8 @@ class PriceManager
     url = "https://seattle.craigslist.org"
     item_array = CL_Scraper.new(url,"furniture").scrape_category
     @list = Item.create_from_collection(item_array)
-    results = search_by_type("bed")
+    #results = search_by_type("bed")
+    Item.search_by_type("bed")
     blah = sort_by_price(results)
     basic_stats(blah) if blah != []
     binding.pry

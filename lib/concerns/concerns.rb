@@ -4,9 +4,8 @@ module Concerns
   module Searchable
 
     def search_by_type(search_item)
-      results = []
-      @list.each{|item| results << item if item[:title].include?(search_item)}
-      results
+      search_item = " " + search_item + " "
+      self.all.select{|item| item if item.title.include?(search_item)}
     end
 
     def sort_by_price(list)
@@ -29,7 +28,7 @@ module Concerns
 
   module Statistical
     attr_accessor :volume, :mean, :low, :high
-    
+
     def basic_stats(list)
       sum = 0
       values = []
