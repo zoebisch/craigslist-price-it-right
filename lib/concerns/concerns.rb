@@ -28,14 +28,18 @@ module Concerns
   end
 
   module Statistical
-    attr_accessor :volume, :mean
-    def find_stats(list)
+    attr_accessor :volume, :mean, :low, :high
+    
+    def basic_stats(list)
       sum = 0
       values = []
       list.each{|item| sum += item[:price]}
       list.each{|item| values << item[:price]}
-      @volume = list.size
+
+      @volume = values.size
       @mean = sum/@volume
+      @low = values.first
+      @high = values.last
     end
   end
 

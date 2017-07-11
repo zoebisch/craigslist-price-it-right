@@ -16,4 +16,4 @@ Program attempts to form price analysis:
   4) Program returns price based on data and user Sell timeframe and data to justify this listing.
 
 Extensions/Future:
-  Make an autopost function!
+  Crazy wishlist : Make an autopost function!

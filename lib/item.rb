@@ -1,5 +1,5 @@
 class Item
-  attr_accessor :link, :pid, :title, :price, :condition, :location, :flag
+  attr_accessor :link, :pid, :title, :price, :condition, :location
   @@all = []
 
   def initialize(item_hash)

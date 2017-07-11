@@ -15,9 +15,9 @@ class PriceManager
     @list = Item.create_from_collection(item_array)
     results = search_by_type("bed")
     blah = sort_by_price(results)
-    find_stats(blah) if blah != []
+    basic_stats(blah) if blah != []
     binding.pry
   end
-  
+
 end
 PriceManager.new.call
