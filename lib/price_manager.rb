@@ -5,9 +5,6 @@ require_relative './craigslist_scraper.rb'
 require_relative './item.rb'
 class PriceManager
   attr_accessor :category, :item
-  @list = []
-  # include Concerns::Searchable
-  # include Concerns::Statistical
   #MENU = []
 
   def call

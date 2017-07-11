@@ -14,17 +14,6 @@ module Concerns
       @search_list.select{|item| item if item.price != nil}
     end
 
-
-    def compile_by_name
-      # list = self.all.sort{|a,b| a.name <=> b.name}.uniq
-      # Item.all.each do |item|
-      #   if item[:title].include?(CL_Scraper.item)
-      #     puts "found #{CL_Scraper.item} in item, #{item.listing}"
-      #   end
-      # end
-      # list.each_with_index{|obj,ind| yield(obj,ind)}
-    end
-
   end
 
   module Sortable
@@ -39,16 +28,11 @@ module Concerns
     attr_accessor :volume, :mean, :low, :high
 
     def basic_stats
-      sum = 0
-      values = []
-      binding.pry
-
-      @price_list.each{|item| sum += item[:price]}
-      @price_list.each{|item| values << item[:price]}
-      @volume = @price_list.size
-      @mean = sum/@volume
-      @low = values.first
-      @high = values.last
+      values = items_with_price.collect{|item| item.price}
+      @volume = values.count
+      @mean = values.reduce(:+)/@volume
+      @low = values.min
+      @high = values.max
     end
   end
 
