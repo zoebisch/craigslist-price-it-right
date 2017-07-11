@@ -2,17 +2,14 @@
 module Concerns
 
   module Searchable
+    @search_list = []
+    @price_list = []
 
-    def search_by_type(search_item)
-      search_item = " " + search_item + " "
-      self.all.select{|item| item if item.title.include?(search_item)}
+    def search_by_type(search_item = PriceManager.item) #Default search using class attribute, allows flexible searches
+      #Extend this to check any Item class attribute
+      @search_list = self.all.select{|item| item if item.title.include?(" " + search_item + " ")} #Spaces to help search scope
     end
 
-    def sort_by_price(list)
-      value_items = []
-      list.each{|item| value_items << item if item[:price] != nil}
-      value_items.sort{|a,b| a[:price] <=> b[:price]}
-    end
 
     def compile_by_name
       # list = self.all.sort{|a,b| a.name <=> b.name}.uniq
@@ -26,16 +23,26 @@ module Concerns
 
   end
 
+  module Sortable
+
+    def sort_by_price
+      @price_list = @search_list.select{|item| item if item.price != nil}
+      @price_list = @price_list.sort{|a,b| a.price <=> b.price}
+    end
+
+  end
+
   module Statistical
     attr_accessor :volume, :mean, :low, :high
 
-    def basic_stats(list)
+    def basic_stats
       sum = 0
       values = []
-      list.each{|item| sum += item[:price]}
-      list.each{|item| values << item[:price]}
+      binding.pry
 
-      @volume = values.size
+      @price_list.each{|item| sum += item[:price]}
+      @price_list.each{|item| values << item[:price]}
+      @volume = @price_list.size
       @mean = sum/@volume
       @low = values.first
       @high = values.last

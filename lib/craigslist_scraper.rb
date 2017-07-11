@@ -4,6 +4,7 @@ require 'pry'
 #TODO: expand to search ALL listings to all pages
 class CL_Scraper
   attr_reader :item, :category
+  @@all = []
 
   def initialize(url="https://seattle.craigslist.org", category)
     @url = url if url
@@ -22,9 +23,12 @@ class CL_Scraper
       item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
       item_info[:title] = item.search(".result-title").text.downcase
       item_info[:location] = item.search(".result-info .result-meta .result-hood").text
-      item_array << item_info
+      @@all << item_info
     end
-    item_array
+  end
+
+  def self.all
+    @@all
   end
 
 end

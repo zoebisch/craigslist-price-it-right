@@ -1,5 +1,6 @@
 class Item
   extend Concerns::Searchable
+  extend Concerns::Sortable
   extend Concerns::Statistical
   attr_accessor :link, :pid, :title, :price, :condition, :location
   @@all = []
@@ -9,8 +10,8 @@ class Item
     @@all << self
   end
 
-  def self.create_from_collection(item_array)
-    item_array.each{|hash| Item.new(hash)}
+  def self.create_from_collection #(item_array)
+    CL_Scraper.all.each{|hash| Item.new(hash)}
   end
 
   def self.all
