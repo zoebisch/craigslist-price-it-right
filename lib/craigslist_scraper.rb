@@ -11,6 +11,16 @@ class CL_Scraper
     @category = category
   end
 
+  def cycle_pages
+    index_url = "https://seattle.craigslist.org/search/fua"
+    listings = Nokogiri::HTML(open(index_url))
+    num_listings = listings.search(".totalcount").text
+    num_per_page = listings.search(".range").text
+    binding.pry
+    # until
+    # end
+  end
+
   def scrape_category
     index_url = "https://seattle.craigslist.org/search/fua"
     listings = Nokogiri::HTML(open(index_url))
