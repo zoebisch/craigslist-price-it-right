@@ -10,6 +10,10 @@ module Concerns
       @search_list = self.all.select{|item| item if item.title.include?(" " + search_item + " ")} #Spaces to help search scope
     end
 
+    def items_with_price
+      @search_list.select{|item| item if item.price != nil}
+    end
+
 
     def compile_by_name
       # list = self.all.sort{|a,b| a.name <=> b.name}.uniq
@@ -26,8 +30,7 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      @price_list = @search_list.select{|item| item if item.price != nil}
-      @price_list = @price_list.sort{|a,b| a.price <=> b.price}
+      items_with_price.sort{|a,b| a.price <=> b.price}
     end
 
   end
