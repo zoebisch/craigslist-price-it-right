@@ -9,6 +9,7 @@ class PriceManager
 
   def call
     url = "https://seattle.craigslist.org"
+    #CL_Scraper.scrape_for_sale_categories
     CL_Scraper.new(url,"furniture").scrape_category
     Item.create_from_collection
     Item.search_by_type("bed")

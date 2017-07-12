@@ -3,12 +3,14 @@ require 'nokogiri'
 require 'pry'
 #TODO: expand to search ALL listings to all pages
 class CL_Scraper
-  attr_reader :item, :category
+  attr_reader :item, :category, :menu_hash
   @@all = []
 
   def initialize(url="https://seattle.craigslist.org", category)
     @url = url if url
     @category = translate(category)
+    @menu_hash = {}
+    scrape_for_sale_categories
   end
 
   def translate(category)
@@ -16,6 +18,14 @@ class CL_Scraper
     when "furniture"
       "fua"
     end
+  end
+
+  def scrape_for_sale_categories
+    index_url = "https://seattle.craigslist.org/"
+    main_page = Nokogiri::HTML(open(index_url))
+    trim_url = index_url.gsub(/.org\//, ".org")
+    sss = main_page.search("#center #sss a")
+    sss.each{|category| @menu_hash[category.children.text] = trim_url + category.attribute("href").text}
   end
 
   def scrape_category
