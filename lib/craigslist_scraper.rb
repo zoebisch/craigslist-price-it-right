@@ -8,22 +8,29 @@ class CL_Scraper
 
   def initialize(url="https://seattle.craigslist.org", category)
     @url = url if url
-    @category = category
+    @category = translate(category)
   end
 
-  def cycle_pages
-    index_url = "https://seattle.craigslist.org/search/fua"
-    listings = Nokogiri::HTML(open(index_url))
-    num_listings = listings.search(".totalcount").text
-    num_per_page = listings.search(".range").text
-    binding.pry
-    # until
-    # end
+  def translate(category)
+    
   end
 
   def scrape_category
     index_url = "https://seattle.craigslist.org/search/fua"
     listings = Nokogiri::HTML(open(index_url))
+    num_listings = listings.search(".totalcount").first.text.to_i
+    num_per_page = 120
+    page_count = 1
+    while page_count <= (num_listings/num_per_page).floor
+      page_url = "https://seattle.craigslist.org/search/" + @category + "?s=" + "#{page_count}*120"
+      scrape_page(page_url)
+      binding.pry
+      counter += 1
+    end
+  end
+
+  def scrape_page(page_url)
+    listings = Nokogiri::HTML(open(page_url))
     item_array = []
     item_list = listings.search(".rows .result-row")
     item_list.each do |item| #Collect and parse item data
