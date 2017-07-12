@@ -12,20 +12,22 @@ class CL_Scraper
   end
 
   def translate(category)
-    
+    case category
+    when "furniture"
+      "fua"
+    end
   end
 
   def scrape_category
-    index_url = "https://seattle.craigslist.org/search/fua"
+    index_url = "https://seattle.craigslist.org/search/" + @category
     listings = Nokogiri::HTML(open(index_url))
     num_listings = listings.search(".totalcount").first.text.to_i
     num_per_page = 120
     page_count = 1
     while page_count <= (num_listings/num_per_page).floor
-      page_url = "https://seattle.craigslist.org/search/" + @category + "?s=" + "#{page_count}*120"
+      page_url = "https://seattle.craigslist.org/search/" + @category + "?s=" + "#{page_count*120}"
       scrape_page(page_url)
-      binding.pry
-      counter += 1
+      page_count += 1
     end
   end
 
