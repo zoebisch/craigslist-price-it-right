@@ -14,6 +14,10 @@ module Concerns
       @search_list.select{|item| item if item.price != nil}
     end
 
+    def get_link_from_key
+      CL_Scraper.menu_hash.fetch(PriceManager.category)
+    end
+
   end
 
   module Sortable
