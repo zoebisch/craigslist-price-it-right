@@ -11,36 +11,35 @@ class CL_Scraper
   def initialize(url="https://seattle.craigslist.org", category)
     @category = category if category
     @url = url if url
+    @user_agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
   end
 
   def self.scrape_for_sale_categories
-    index_url = route_through_proxy(@url)
-    main_page = Nokogiri::HTML(index_url)
+    binding.pry
+    main_page = Nokogiri::HTML(open(@url, 'User-Agent' => @user_agent)) #user_agent is critical to bypassing IP Ban
     trim_url = index_url.gsub(/.org\//, ".org")
     hash = {}
     sss = main_page.search("#center #sss a")
     sss.each{|category| @@menu_hash[category.children.text] = trim_url + category.attribute("href").text}
-    binding.pry
   end
 
   def scrape_category
-    index_url = route_through_proxy(@url + "/search/" + @category)
-    binding.pry
-    listings = Nokogiri::HTML(index_url)
+    index_url = @url + "/search/" + @category
+    listings = Nokogiri::HTML(open(index_url, 'User-Agent' => @user_agent))
     num_listings = listings.search(".totalcount").first.text.to_i
     num_per_page = 120
     page_count = 1
     while page_count <= (num_listings/num_per_page).floor
       page_url = index_url + "?s=" + "#{page_count*120}"
-      scrape_page(route_through_proxy(page_url))
+      scrape_page(page_url)
+      sleep 5           #Sleep to aviod CL API from banning IP!
       page_count += 1
     end
   end
 
   def scrape_page(page_url)
     puts "Scraping #{page_url}"
-    listings = Nokogiri::HTML(page_url)
-    binding.pry
+    listings = Nokogiri::HTML(open(page_url, 'User-Agent' => @user_agent))
     item_array = []
     item_list = listings.search(".rows .result-row")
     item_list.each do |item| #Collect and parse item data
@@ -52,13 +51,6 @@ class CL_Scraper
       item_info[:location] = item.search(".result-info .result-meta .result-hood").text
       @@all << item_info
     end
-  end
-
-  def route_through_proxy(url)
-    # http = Net::HTTP::SOCKSProxy("47.44.40.8", 47251)
-    # url = http.get(URI(url))
-    blah = Nokogiri::HTML(url)
-    binding.pry
   end
 
   def self.all
