@@ -1,16 +1,17 @@
 require 'pry'
 require_relative './concerns/concerns.rb'
 
-require_relative './craigslist_scraper.rb'
-require_relative './item.rb'
+# require_relative './craigslist_scraper.rb'
+# require_relative './item.rb'
 class PriceManager
   attr_accessor :category, :item, :menu_hash
+  attr_reader :url
   include Concerns::Searchable
   MENU = ["------------------------------------",
           "!Welcome to The Price is Right!",
           "A Friendly Price Scraper for CL",
           "To Begin, Let's Set the Default Page:",
-          "Please copy and paste the main CraigsList page and hit return.",
+          "Please copy and paste the main CraigsList page and hit return."]
           # "Select From the Following:",
           # "------------------------------------",
           # "1. Set Default CraigsList Page",
@@ -18,13 +19,15 @@ class PriceManager
           # "3. View Price Information",
           # "------------------------------------",
           # "Please enter a numerical selection 1:3"
-        ]
+  def initialize(url)
+    @url = url
+  end
 
   def call
-    MENU.each{|message| puts "#{message}"}
-    url = gets.chomp.downcase
+    #MENU.each{|message| puts "#{message}"}
+    #url = gets.chomp.downcase
     puts "OK, let's get a menu from #{url}"
-    @site = CL_Scraper.new(url="https://pennstate.craigslist.org")
+    @site = CL_Scraper.new(@url)
     sleep 2
     @category = category_menu #TODO handle nil response
     @site.scrape_page(get_link_from_key)
@@ -64,4 +67,3 @@ class PriceManager
   end
 
 end
-PriceManager.new.call

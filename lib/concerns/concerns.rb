@@ -31,7 +31,7 @@ module Concerns
   module Statistical
     @@basic_stats = {}
 
-    def basic_stats #BROKEN!
+    def basic_stats 
       values = items_with_price.collect{|item| item.price}
       @@basic_stats[:volume] = values.count
       @@basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
