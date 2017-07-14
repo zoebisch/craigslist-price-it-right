@@ -3,16 +3,15 @@
 require_relative '../config/environment'
 
 def main_menu
-  puts "-------------------------------------"
-  puts "  !Welcome to The Price is Right!"
-  puts "  A Friendly Price Scraper for CL"
-  puts "To Begin, Let's Set the Default Page."
+  puts "---------------------------------------------"
+  puts "     !Welcome to The Price is Right!"
+  puts "     A Friendly Price Scraper for CL"
+  puts "  To Begin, Let's Set the Default Page."
   puts "Please copy and paste the main CraigsList URL"
-  puts "e.g. https://seattle.craigslist.org"
-  puts "-------------------------------------"
-
-  #MENU.each{|message| puts "#{message}"}
+  puts "  (e.g. https://seattle.craigslist.org)"
+  puts "---------------------------------------------"
 end
+
 main_menu
 url = gets.chomp.downcase
 PriceManager.new(url="https://pennstate.craigslist.org").call
