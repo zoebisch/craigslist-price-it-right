@@ -35,7 +35,6 @@ class CL_Scraper
 
   def scrape_page(page_url)
     puts "Scraping #{page_url}"
-    binding.pry
     listings = noko_page(page_url)
     item_array = []
     item_list = listings.search(".rows .result-row")

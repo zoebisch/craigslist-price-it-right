@@ -29,15 +29,15 @@ module Concerns
   end
 
   module Statistical
-    attr_accessor :volume, :mean, :low, :high
+    @@basic_stats = {}
 
     def basic_stats #BROKEN!
-      binding.pry
       values = items_with_price.collect{|item| item.price}
-      @volume = values.count
-      @mean = values.reduce(:+)/@volume
-      @min = values.min
-      @max = values.max
+      @@basic_stats[:volume] = values.count
+      @@basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
+      @@basic_stats[:min] = values.min
+      @@basic_stats[:max] = values.max
+      @@basic_stats
     end
   end
 
