@@ -22,7 +22,6 @@ class PriceManager
   def call
     puts "OK, we are working with #{url}"
     @site = CL_Scraper.new(@url)
-    puts " "
     sleep 2
     run = true
     while run
@@ -51,6 +50,7 @@ class PriceManager
   end
 
   def category_menu
+    puts "                                     "
     puts "-------------------------------------"
     puts "Available 'for sale' categories are:"
     puts "-------------------------------------"
