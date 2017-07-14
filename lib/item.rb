@@ -10,7 +10,7 @@ class Item
     @@all << self
   end
 
-  def self.create_from_collection #(item_array)
+  def self.create_from_collection
     CL_Scraper.all.each{|hash| Item.new(hash)}
   end
 

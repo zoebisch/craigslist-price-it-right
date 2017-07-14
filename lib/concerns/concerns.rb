@@ -5,8 +5,8 @@ module Concerns
     @search_list = []
     @price_list = []
 
-    def search_by_type(search_item = PriceManager.item) #Default search using class attribute, allows flexible searches
-      #Extend this to check any Item class attribute
+    def search_by_type(search_item)
+      #Extend this to check any of the item's scraped attributes
       @search_list = self.all.select{|item| item if item.title.include?(" " + search_item + " ")} #Spaces to help search scope
     end
 
@@ -15,7 +15,7 @@ module Concerns
     end
 
     def get_link_from_key
-      CL_Scraper.menu_hash.fetch(PriceManager.category)
+      CL_Scraper.menu_hash.fetch(self.category) #TODO: add check to prevent user input misspellings, etc
     end
 
   end

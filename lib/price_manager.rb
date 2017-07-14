@@ -5,14 +5,16 @@ require_relative './craigslist_scraper.rb'
 require_relative './item.rb'
 class PriceManager
   attr_accessor :category, :item, :menu_hash
+  include Concerns::Searchable
   #MENU = []
 
   def call
     url = "https://seattle.craigslist.org"
-    CL_Scraper.new(url,"furniture").scrape_category
-    #CL_Scraper.new(url,"furniture").scrape_page()
+    CL_Scraper.new(url, "antiques").scrape_page("https://seattle.craigslist.org/search/ata")
+    binding.pry
+    #CL_Scraper.new(url,"furniture").scrape_category
     Item.create_from_collection
-    Item.search_by_type("bed")
+    Item.search_by_type("table")
     Item.sort_by_price
     Item.basic_stats
     @category = category_menu
@@ -21,9 +23,10 @@ class PriceManager
   end
 
   def category_menu
-    puts "__________________________________"
+    puts "------------------------------------"
     puts "Available 'for sale' categories are:"
-    CL_Scraper.scrape_for_sale_categories
+    puts "------------------------------------"
+    CL_Scraper.scrape_for_sale_categories if CL_Scraper.menu_hash == {}
     CL_Scraper.menu_hash.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     gets.strip.downcase
