@@ -31,12 +31,13 @@ module Concerns
   module Statistical
     attr_accessor :volume, :mean, :low, :high
 
-    def basic_stats
+    def basic_stats #BROKEN!
+      binding.pry
       values = items_with_price.collect{|item| item.price}
       @volume = values.count
       @mean = values.reduce(:+)/@volume
-      @low = values.min
-      @high = values.max
+      @min = values.min
+      @max = values.max
     end
   end
 

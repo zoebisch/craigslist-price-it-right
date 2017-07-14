@@ -3,20 +3,20 @@ require 'nokogiri'
 require 'pry'
 
 class CL_Scraper
-  #attr_reader :item, :category
   USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
   @@all = []
   @@menu_hash = {}
 
-  def initialize(url="https://seattle.craigslist.org", category)
+  def initialize(url="https://seattle.craigslist.org", category="antiques")
     @category = category if category
     @url = url if url
-    scrape_for_sale_categories
+    scrape_for_sale_categories #Create menu hash on initialization
   end
 
   def scrape_for_sale_categories
     sss = noko_page.search("#center #sss a")
-    sss.each{|category| @@menu_hash[category.children.text] = @url + "/search/" + category.attribute("href").text}
+    sss.each{|category| @@menu_hash[category.children.text] = @url + category.attribute("href").text}
+    #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
   def scrape_category
@@ -26,7 +26,7 @@ class CL_Scraper
     num_per_page = 120
     page_count = 1
     while page_count <= (num_listings/num_per_page).floor
-      page_url = index_url + "?s=" + "#{page_count*120}"
+      page_url = index_url + "?s=" + "#{page_count*num_per_page}"
       scrape_page(page_url)
       sleep rand(1..5)           #Sleep to help avoid CL API from banning IP!
       page_count += 1
@@ -35,6 +35,7 @@ class CL_Scraper
 
   def scrape_page(page_url)
     puts "Scraping #{page_url}"
+    binding.pry
     listings = noko_page(page_url)
     item_array = []
     item_list = listings.search(".rows .result-row")
