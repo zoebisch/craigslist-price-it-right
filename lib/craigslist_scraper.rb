@@ -11,12 +11,11 @@ class CL_Scraper
   def initialize(url="https://seattle.craigslist.org", category)
     @category = category if category
     @url = url if url
+    scrape_for_sale_categories
   end
 
-  def self.scrape_for_sale_categories
-    main_page = Nokogiri::HTML(open("https://seattle.craigslist.org", 'User-Agent' => USER_AGENT))
-    hash = {}
-    sss = main_page.search("#center #sss a")
+  def scrape_for_sale_categories
+    sss = noko_page.search("#center #sss a")
     sss.each{|category| @@menu_hash[category.children.text] = @url + "/search/" + category.attribute("href").text}
   end
 

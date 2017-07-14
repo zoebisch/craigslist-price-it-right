@@ -11,7 +11,6 @@ class PriceManager
   def call
     url = "https://seattle.craigslist.org"
     CL_Scraper.new(url, "antiques").scrape_page("https://seattle.craigslist.org/search/ata")
-    binding.pry
     #CL_Scraper.new(url,"furniture").scrape_category
     Item.create_from_collection
     Item.search_by_type("table")
@@ -26,7 +25,6 @@ class PriceManager
     puts "------------------------------------"
     puts "Available 'for sale' categories are:"
     puts "------------------------------------"
-    CL_Scraper.scrape_for_sale_categories if CL_Scraper.menu_hash == {}
     CL_Scraper.menu_hash.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     gets.strip.downcase
