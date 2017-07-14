@@ -7,7 +7,7 @@ class CL_Scraper
   @@all = []
   @@menu_hash = {}
 
-  def initialize(url="https://seattle.craigslist.org", category="antiques")
+  def initialize(url, category="antiques")
     @category = category if category
     @url = url if url
     scrape_for_sale_categories #Create menu hash on initialization
