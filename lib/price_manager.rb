@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :site
+  attr_accessor :category, :item, :items, :items_with_price, :site
   attr_reader :url
   include Concerns::Searchable
   include Concerns::Printable
@@ -12,7 +12,7 @@ class PriceManager
           "category -> View and Select Category",
           "item     -> Enter Search Item",
           "price    -> View Price Information",
-          "print    -> Print Results to Screen",
+          "id       -> View Item Advanced Info",
           "q        -> Quit",
           "------------------------------------",
           "  Please type in your selection",
@@ -33,16 +33,15 @@ class PriceManager
         @category = category_menu #TODO handle nil response
         @site.scrape_page(get_link_from_key)
         @items = Item.create_from_collection
-        binding.pry
       when "item"
         puts "Please Enter your sale item:"
         @item = gets.chomp.downcase
-        Item.search_by_type(@item)
+        @items_with_price = Item.search_by_type(@item)
       when "price"
-        Item.sort_by_price
-        Item.basic_stats
-      when "print"
-        print_items
+        print_items_by_price
+        @basic_stats = Item.basic_stats
+      when "id"
+        print_item_by_id
       when "q"
         run = false
       end

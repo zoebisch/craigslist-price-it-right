@@ -29,10 +29,11 @@ module Concerns
 
   module Printable
 
-    def print_items
-      #ist.each_with_index{|obj,ind| yield(obj,ind)}
-      binding.pry
-      @search_list.each_with_index{|item,ind| puts ind + ". " + item}
+    def print_items_by_price
+      Item.sort_by_price.each{|item| puts "ID: #{item.pid} :#{item.title} $#{item.price}"}
+    end
+
+    def print_item_by_id
     end
 
   end
