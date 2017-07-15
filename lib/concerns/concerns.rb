@@ -3,7 +3,6 @@ module Concerns
 
   module Searchable
     @search_list = []
-    @price_list = []
 
     def search_by_type(search_item)
       #Extend this to check any of the item's scraped attributes
@@ -28,10 +27,20 @@ module Concerns
 
   end
 
+  module Printable
+
+    def print_items
+      #ist.each_with_index{|obj,ind| yield(obj,ind)}
+      binding.pry
+      @search_list.each_with_index{|item,ind| puts ind + ". " + item}
+    end
+
+  end
+
   module Statistical
     @@basic_stats = {}
 
-    def basic_stats 
+    def basic_stats
       values = items_with_price.collect{|item| item.price}
       @@basic_stats[:volume] = values.count
       @@basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
