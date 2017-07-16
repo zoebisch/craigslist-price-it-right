@@ -50,6 +50,19 @@ class CL_Scraper
     end
   end
 
+  def scrape_by_pid(link)
+    puts "Scraping #{link}"
+    listing = noko_page(page_url)
+    listing .search(".rows .result-row")
+    item_info = {}
+    item_info[:pid] = item.attribute("data-pid").text
+    item_info[:link] = item.search("a")[1].attribute("href").text
+    item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
+    item_info[:title] = item.search(".result-title").text.downcase
+    item_info[:location] = item.search(".result-info .result-meta .result-hood").text
+    item_info
+  end
+
   def noko_page(page=@url)
     Nokogiri::HTML(open(page, 'User-Agent' => USER_AGENT))
   end

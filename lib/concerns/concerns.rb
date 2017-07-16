@@ -9,6 +9,14 @@ module Concerns
       @search_list = self.all.select{|item| item if item.title.include?(" " + search_item + " ")} #Spaces to help search scope
     end
 
+    def search_by_pid(pid)
+      pid_link = ""
+      @search_list.select{|item| pid_link = item.link if item.pid == pid}
+      index_url = @url + pid_link
+      binding.pry
+      blah = CL_Scraper.new(@url).scrape_by_pid(index_url)
+    end
+
     def items_with_price
       @search_list.select{|item| item if item.price != nil}
     end
@@ -33,7 +41,8 @@ module Concerns
       Item.sort_by_price.each{|item| puts "ID: #{item.pid} :#{item.title} $#{item.price}"}
     end
 
-    def print_item_by_id
+    def print_item_by_pid(pid)
+      Item.search_by_pid(pid)
     end
 
   end

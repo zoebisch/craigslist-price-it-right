@@ -12,7 +12,7 @@ class PriceManager
           "category -> View and Select Category",
           "item     -> Enter Search Item",
           "price    -> View Price Information",
-          "id       -> View Item Advanced Info",
+          "pid      -> View Item Advanced Info",
           "q        -> Quit",
           "------------------------------------",
           "  Please type in your selection",
@@ -40,8 +40,9 @@ class PriceManager
       when "price"
         print_items_by_price
         @basic_stats = Item.basic_stats
-      when "id"
-        print_item_by_id
+      when "pid"
+        puts "Please Enter the PID:"
+        print_item_by_pid(gets.chomp)
       when "q"
         run = false
       end
