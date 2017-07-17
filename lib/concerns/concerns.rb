@@ -12,8 +12,7 @@ module Concerns
     def search_by_pid(pid)
       pid_link = ""
       @search_list.select{|item| pid_link = item.link if item.pid == pid}
-      index_url = PriceManager.url + pid_link
-      CL_Scraper.new(PriceManager.url).scrape_by_pid(index_url)
+      @site.scrape_by_pid(@site.url+pid_link)
     end
 
     def items_with_price
@@ -21,7 +20,7 @@ module Concerns
     end
 
     def get_link_from_key
-      CL_Scraper.menu_hash.fetch(self.category) #TODO: add check to prevent user input misspellings, etc
+      @site.menu_hash.fetch(self.category) #TODO: add check to prevent user input misspellings, etc
     end
 
   end

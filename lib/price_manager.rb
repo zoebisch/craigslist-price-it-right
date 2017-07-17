@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :items_with_price, :site
+  attr_accessor :category, :item, :items, :items_with_price, :site, :menu_hash
   attr_reader :url
   include Concerns::Searchable
   include Concerns::Printable
@@ -60,7 +60,8 @@ class PriceManager
     puts "-------------------------------------"
     puts "Available 'for sale' categories are:"
     puts "-------------------------------------"
-    CL_Scraper.menu_hash.each_key{|key| puts key}
+    binding.pry
+    @site.menu_hash.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     puts "-------------------------------------"
     gets.strip.downcase
