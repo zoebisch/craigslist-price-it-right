@@ -12,9 +12,8 @@ module Concerns
     def search_by_pid(pid)
       pid_link = ""
       @search_list.select{|item| pid_link = item.link if item.pid == pid}
-      index_url = @url + pid_link
-      binding.pry
-      blah = CL_Scraper.new(@url).scrape_by_pid(index_url)
+      index_url = PriceManager.url + pid_link
+      CL_Scraper.new(PriceManager.url).scrape_by_pid(index_url)
     end
 
     def items_with_price

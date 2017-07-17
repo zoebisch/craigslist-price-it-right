@@ -8,6 +8,7 @@ User selects Craigslist category from scraped categories (to start, this could b
 Program scrapes all potential instances from site
   1) This does not have a smart search, it only looks for a match to item string the user selects
   2) Items with no price listing will not have price key
+
 Program attempts to form novel price analysis:
   1) Determine reasonable low and high pricing.
   2) Outliers must be filtered based on proximity to compiled list.

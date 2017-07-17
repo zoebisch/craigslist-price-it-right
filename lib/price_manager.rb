@@ -21,11 +21,11 @@ class PriceManager
   def initialize(url)
     @url = url
     @items = []
+    puts "OK, we are working with #{@url}"
+    @site = CL_Scraper.new(@url)
   end
 
   def call
-    puts "OK, we are working with #{url}"
-    @site = CL_Scraper.new(@url)
     run = true
     while run
       case actions_menu

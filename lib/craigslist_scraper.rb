@@ -20,7 +20,6 @@ class CL_Scraper
   end
 
   def scrape_category
-    binding.pry
     index_url = @url + "/search/" + @category
     listings = noko_page(index_url)
     num_listings = listings.search(".totalcount").first.text.to_i
@@ -52,6 +51,7 @@ class CL_Scraper
 
   def scrape_by_pid(link)
     puts "Scraping #{link}"
+    binding.pry
     listing = noko_page(page_url)
     listing .search(".rows .result-row")
     item_info = {}
