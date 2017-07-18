@@ -38,8 +38,8 @@ class PriceManager
       when "item"
         puts "Please Enter your sale item:"
         @item = gets.chomp.downcase
-        @items_with_price = search_by_type(@item)
       when "price"
+        @items_with_price = search_by_type(@item)
         print_items_by_price
         @basic_stats = basic_stats
       when "pid"

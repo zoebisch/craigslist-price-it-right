@@ -12,12 +12,12 @@ module Concerns
 
     def search_by_pid(pid)
       pid_link = ""
-      @search_list.select{|item| pid_link = item.link if item.pid == pid}
+      @search_list.select{|item| pid_link = item[:link] if item[:pid] == pid}
       @site.scrape_by_pid(@site.url+pid_link)
     end
 
     def items_with_price
-      @search_list.select{|item| item if item.price != nil}
+      @search_list.select{|item| item if item[:price] != nil}
     end
 
     def get_link_from_key
@@ -29,7 +29,7 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      @items.sort{|a,b| a.price <=> b.price}
+      items_with_price.sort{|a,b| a[:price] <=> b[:price]}
     end
 
   end
@@ -38,7 +38,7 @@ module Concerns
 
     def print_items_by_price
       binding.pry
-      sort_by_price.each{|item| puts "ID: #{item.pid} :#{item.title} $#{item.price}"}
+      sort_by_price.each{|item| puts "ID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
     end
 
     def print_item_by_pid(pid)
@@ -48,7 +48,7 @@ module Concerns
   end
 
   module Statistical
-    @@basic_stats = {}
+    @@basic_stats = {} #TODO: remove class accessor
 
     def basic_stats
       values = items_with_price.collect{|item| item.price}
