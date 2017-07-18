@@ -29,7 +29,6 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      binding.pry
       items_with_price.sort{|a,b| a[:price] <=> b[:price]}
     end
 

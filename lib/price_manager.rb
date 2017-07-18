@@ -56,6 +56,14 @@ class PriceManager
 
   end
 
+  def reset
+      @category = category_menu
+      @site.scrape_page(get_link_from_key)
+      puts "Please Enter your sale item:"
+      @item = gets.chomp.downcase
+      @basic_stats.clear
+  end
+
   def actions_menu
     MENU.each{|message| puts "#{message}"}
     gets.chomp
