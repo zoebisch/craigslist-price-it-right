@@ -1,8 +1,4 @@
 class Item
-  include Concerns::Searchable
-  #include Concerns::Sortable
-  #include Concerns::Statistical
-  #include Concerns::Printable
   attr_accessor :link, :pid, :title, :price, :condition, :location
   @@all = []
 

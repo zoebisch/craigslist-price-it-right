@@ -26,6 +26,7 @@ class PriceManager
     puts "OK, we are working with #{@url}"
     @site = CL_Scraper.new(@url)
     @menu = @site.scrape_for_sale_categories
+    @basic_stats = {}
   end
 
   def call
@@ -42,7 +43,8 @@ class PriceManager
       when "price"
         @items_with_price = search_by_type(@item)
         print_items_by_price
-        @basic_stats = basic_stats
+        basic_stats
+        binding.pry
       when "pid"
         puts "Please Enter the PID:"
         print_item_by_pid(gets.chomp)

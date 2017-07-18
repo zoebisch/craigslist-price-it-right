@@ -1,4 +1,4 @@
-
+require 'pry'
 module Concerns
 
   module Searchable
@@ -47,16 +47,16 @@ module Concerns
   end
 
   module Statistical
-    @basic_stats = {} #TODO: remove class accessor
 
     def basic_stats
       values = items_with_price.collect{|item| item[:price]}
       @basic_stats[:volume] = values.count
-      @basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
+      @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume] if @basic_stats[:volume]
       @basic_stats[:min] = values.min
       @basic_stats[:max] = values.max
       @basic_stats
     end
+
   end
 
 end
