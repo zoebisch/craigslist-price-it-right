@@ -7,7 +7,7 @@ class CL_Scraper
   attr_accessor :menu_hash, :all
   @@all = []
 
-  def initialize(url, category="antiques")
+  def initialize(url, category="for sale")
     @all = []
     @category = category if category
     @url = url if url
@@ -24,6 +24,7 @@ class CL_Scraper
   end
 
   def scrape_category
+    binding.pry
     index_url = @url + "/search/" + @category
     listings = noko_page(index_url)
     num_listings = listings.search(".totalcount").first.text.to_i
@@ -53,17 +54,21 @@ class CL_Scraper
     end
   end
 
-  def scrape_by_pid(link)
-    puts "Scraping #{link}"
-    listing = noko_page(page_url)
-    listing .search(".rows .result-row")
-    binding.pry
+  def scrape_by_pid(pid_link)
+    puts "Scraping #{pid_link}"
+    listing = noko_page(pid_link)
+    listing.search(".rows .result-row")
     item_info = {}
-    item_info[:pid] = item.attribute("data-pid").text
-    item_info[:link] = item.search("a")[1].attribute("href").text
-    item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
-    item_info[:title] = item.search(".result-title").text.downcase
-    item_info[:location] = item.search(".result-info .result-meta .result-hood").text
+    item_info[:postingbody] = listing.search("#postingbody").text
+    attrgroup = listing.search(".attrgroup span").text.split("/")
+    attrgroup.each do |attribute|
+      binding.pry
+    end
+    # item_info[:]
+    item_info[:timeago] = listing.search(".timeago")[0].text
+    # item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
+    # item_info[:title] = item.search(".result-title").text.downcase
+    # item_info[:location] = item.search(".result-info .result-meta .result-hood").text
     item_info
   end
 

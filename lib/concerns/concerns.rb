@@ -12,7 +12,8 @@ module Concerns
 
     def search_by_pid(pid)
       pid_link = ""
-      @search_list.select{|item| pid_link = item[:link] if item[:pid] == pid}
+      binding.pry
+      @items.select{|item| pid_link = item[:link] if item[:pid] == pid}
       @site.scrape_by_pid(@url+pid_link)
     end
 
@@ -50,10 +51,13 @@ module Concerns
 
     def basic_stats
       values = items_with_price.collect{|item| item[:price]}
-      @basic_stats[:volume] = values.count
-      @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume] if @basic_stats[:volume]
-      @basic_stats[:min] = values.min
-      @basic_stats[:max] = values.max
+      binding.pry
+      if values != [nil]
+        @basic_stats[:volume] = values.count
+        @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume]
+        @basic_stats[:min] = values.min
+        @basic_stats[:max] = values.max
+      end
       @basic_stats
     end
 

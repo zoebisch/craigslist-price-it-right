@@ -35,7 +35,8 @@ class PriceManager
       case actions_menu
       when "category"
         @category = category_menu #TODO handle nil response
-        @site.scrape_page(get_link_from_key)
+        #@site.scrape_page(get_link_from_key) #TODO EXPAND TO INCLUDE ALL PAGES!!!!
+        @site.scrape_category
         @items = Item.create_from_collection(@site.all)
       when "item"
         puts "Please Enter your sale item:"
