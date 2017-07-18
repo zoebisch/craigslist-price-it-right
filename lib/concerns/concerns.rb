@@ -37,7 +37,6 @@ module Concerns
   module Printable
 
     def print_items_by_price
-      binding.pry
       sort_by_price.each{|item| puts "ID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
     end
 
@@ -48,15 +47,15 @@ module Concerns
   end
 
   module Statistical
-    @@basic_stats = {} #TODO: remove class accessor
+    @basic_stats = {} #TODO: remove class accessor
 
     def basic_stats
-      values = items_with_price.collect{|item| item.price}
-      @@basic_stats[:volume] = values.count
-      @@basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
-      @@basic_stats[:min] = values.min
-      @@basic_stats[:max] = values.max
-      @@basic_stats
+      values = items_with_price.collect{|item| item[:price]}
+      @basic_stats[:volume] = values.count
+      @basic_stats[:mean] = values.reduce(:+)/@@basic_stats[:volume]
+      @basic_stats[:min] = values.min
+      @basic_stats[:max] = values.max
+      @basic_stats
     end
   end
 

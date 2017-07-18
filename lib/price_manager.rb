@@ -7,6 +7,7 @@ class PriceManager
   include Concerns::Searchable
   include Concerns::Sortable
   include Concerns::Printable
+  include Concerns::Statistical
   MENU = ["                                    ",
           "Available Actions:",
           "------------------------------------",
