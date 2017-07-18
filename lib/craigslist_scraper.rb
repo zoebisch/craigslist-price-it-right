@@ -56,20 +56,15 @@ class CL_Scraper
 
   def scrape_by_pid(pid_link)
     puts "Scraping #{pid_link}"
-    binding.pry
     listing = noko_page(pid_link)
     listing.search(".rows .result-row")
     item_info = {}
     item_info[:postingbody] = listing.search("#postingbody").text
-    attrgroup = listing.search(".attrgroup span").text.split("/")
+    attrgroup = listing.search(".attrgroup span")
     attrgroup.each do |attribute|
-      binding.pry
+      item_info[attribute.children[0].text] = attribute.children[1].text
     end
-    # item_info[:]
     item_info[:timeago] = listing.search(".timeago")[0].text
-    # item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
-    # item_info[:title] = item.search(".result-title").text.downcase
-    # item_info[:location] = item.search(".result-info .result-meta .result-hood").text
     item_info
   end
 
