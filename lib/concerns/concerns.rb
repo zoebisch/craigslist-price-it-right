@@ -2,11 +2,12 @@
 module Concerns
 
   module Searchable
+    attr_accessor :site
     @search_list = []
 
     def search_by_type(search_item)
       #Extend this to check any of the item's scraped attributes
-      @search_list = self.all.select{|item| item if item.title.include?(" " + search_item + " ")} #Spaces to help search scope
+      @search_list = @site.all.select{|item| item if item[:title].include?(" " + search_item + " ")} #Spaces to help search scope
     end
 
     def search_by_pid(pid)
@@ -28,7 +29,7 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      items_with_price.sort{|a,b| a.price <=> b.price}
+      @items.sort{|a,b| a.price <=> b.price}
     end
 
   end
@@ -36,11 +37,12 @@ module Concerns
   module Printable
 
     def print_items_by_price
-      Item.sort_by_price.each{|item| puts "ID: #{item.pid} :#{item.title} $#{item.price}"}
+      binding.pry
+      sort_by_price.each{|item| puts "ID: #{item.pid} :#{item.title} $#{item.price}"}
     end
 
     def print_item_by_pid(pid)
-      Item.search_by_pid(pid)
+      @items.search_by_pid(pid)
     end
 
   end

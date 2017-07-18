@@ -2,9 +2,10 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :items_with_price, :site, :menu_hash
-  attr_reader :url
+  attr_accessor :category, :item, :items, :items_with_price, :site
+  attr_reader :url, :menu
   include Concerns::Searchable
+  include Concerns::Sortable
   include Concerns::Printable
   MENU = ["                                    ",
           "Available Actions:",
@@ -23,6 +24,7 @@ class PriceManager
     @items = []
     puts "OK, we are working with #{@url}"
     @site = CL_Scraper.new(@url)
+    @menu = @site.scrape_for_sale_categories
   end
 
   def call
@@ -32,14 +34,14 @@ class PriceManager
       when "category"
         @category = category_menu #TODO handle nil response
         @site.scrape_page(get_link_from_key)
-        @items = Item.create_from_collection
+        @items = Item.create_from_collection(@site.all)
       when "item"
         puts "Please Enter your sale item:"
         @item = gets.chomp.downcase
-        @items_with_price = Item.search_by_type(@item)
+        @items_with_price = search_by_type(@item)
       when "price"
         print_items_by_price
-        @basic_stats = Item.basic_stats
+        @basic_stats = basic_stats
       when "pid"
         puts "Please Enter the PID:"
         print_item_by_pid(gets.chomp)
@@ -60,8 +62,7 @@ class PriceManager
     puts "-------------------------------------"
     puts "Available 'for sale' categories are:"
     puts "-------------------------------------"
-    binding.pry
-    @site.menu_hash.each_key{|key| puts key}
+    @menu.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     puts "-------------------------------------"
     gets.strip.downcase

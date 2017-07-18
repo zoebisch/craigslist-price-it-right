@@ -4,19 +4,22 @@ require 'pry'
 
 class CL_Scraper
   USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
-  attr_accessor :menu_hash
+  attr_accessor :menu_hash, :all
   @@all = []
 
   def initialize(url, category="antiques")
+    @all = []
     @category = category if category
     @url = url if url
     @menu_hash = {}
     scrape_for_sale_categories #Create menu hash on initialization
+    @@all << self
   end
 
   def scrape_for_sale_categories
     sss = noko_page.search("#center #sss a")
     sss.each{|category| @menu_hash[category.children.text] = @url + category.attribute("href").text}
+    @menu_hash
     #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
@@ -46,7 +49,7 @@ class CL_Scraper
       item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
       item_info[:title] = item.search(".result-title").text.downcase
       item_info[:location] = item.search(".result-info .result-meta .result-hood").text
-      @@all << item_info
+      @all << item_info
     end
   end
 
