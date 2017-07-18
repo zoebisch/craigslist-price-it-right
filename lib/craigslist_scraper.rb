@@ -3,7 +3,10 @@ require 'nokogiri'
 require 'pry'
 
 class CL_Scraper
-  USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+  USER_AGENT = ["Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
+                "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"]
+
   attr_accessor :menu_hash, :all
   @@all = []
 
@@ -21,9 +24,8 @@ class CL_Scraper
     #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
-  def scrape_category
-    binding.pry
-    index_url = @url + "/search/" + @category
+  def scrape_category(category)
+    index_url = @url + "/search/" + category
     listings = noko_page(index_url)
     num_listings = listings.search(".totalcount").first.text.to_i
     num_per_page = 120
@@ -31,7 +33,7 @@ class CL_Scraper
     while page_count <= (num_listings/num_per_page).floor
       page_url = index_url + "?s=" + "#{page_count*num_per_page}"
       scrape_page(page_url)
-      sleep rand(1..5)           #Sleep to help avoid CL API from banning IP!
+      sleep rand(5..8)           #Sleep to help avoid CL API from banning IP!
       page_count += 1
     end
   end
@@ -54,6 +56,7 @@ class CL_Scraper
 
   def scrape_by_pid(pid_link)
     puts "Scraping #{pid_link}"
+    binding.pry
     listing = noko_page(pid_link)
     listing.search(".rows .result-row")
     item_info = {}
@@ -71,7 +74,7 @@ class CL_Scraper
   end
 
   def noko_page(page=@url)
-    Nokogiri::HTML(open(page, 'User-Agent' => USER_AGENT))
+    Nokogiri::HTML(open(page, 'User-Agent' => USER_AGENT[rand(0..USER_AGENT.length-1)]))
   end
 
   def self.all

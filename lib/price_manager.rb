@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :items_with_price, :site
+  attr_accessor :category, :item, :items, :site
   attr_reader :url, :menu
   include Concerns::Searchable
   include Concerns::Sortable
@@ -35,14 +35,15 @@ class PriceManager
       case actions_menu
       when "category"
         @category = category_menu #TODO handle nil response
-        #@site.scrape_page(get_link_from_key) #TODO EXPAND TO INCLUDE ALL PAGES!!!!
-        @site.scrape_category
+        @site.scrape_page(get_link_from_key)
+        #@site.scrape_category(get_link_from_key)
         @items = Item.create_from_collection(@site.all)
       when "item"
         puts "Please Enter your sale item:"
         @item = gets.chomp.downcase
+        search_by_type
       when "price"
-        @items_with_price = search_by_type(@item)
+        #@items_with_price = search_by_type(@item)
         print_items_by_price
         basic_stats
       when "pid"
