@@ -12,7 +12,7 @@ class CL_Scraper
     @category = category if category
     @url = url if url
     @menu_hash = {}
-    scrape_for_sale_categories #Create menu hash on initialization
+    #scrape_for_sale_categories #Create menu hash on initialization
     @@all << self
   end
 
@@ -42,7 +42,7 @@ class CL_Scraper
     listings = noko_page(page_url)
     item_array = []
     item_list = listings.search(".rows .result-row")
-    item_list.each do |item| #Collect and parse item data
+    item_list.each do |item|
       item_info = {}
       item_info[:pid] = item.attribute("data-pid").text
       item_info[:link] = item.search("a")[1].attribute("href").text
@@ -55,9 +55,9 @@ class CL_Scraper
 
   def scrape_by_pid(link)
     puts "Scraping #{link}"
-    binding.pry
     listing = noko_page(page_url)
     listing .search(".rows .result-row")
+    binding.pry
     item_info = {}
     item_info[:pid] = item.attribute("data-pid").text
     item_info[:link] = item.search("a")[1].attribute("href").text

@@ -8,7 +8,6 @@ class Item
   end
 
   def self.create_from_collection(site_hash)
-    # CL_Scraper.all.each{|hash| Item.new(hash)}
     site_hash.each{|hash| Item.new(hash)}
   end
 

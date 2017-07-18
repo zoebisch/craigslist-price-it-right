@@ -44,7 +44,6 @@ class PriceManager
         @items_with_price = search_by_type(@item)
         print_items_by_price
         basic_stats
-        binding.pry
       when "pid"
         puts "Please Enter the PID:"
         print_item_by_pid(gets.chomp)

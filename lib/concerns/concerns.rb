@@ -13,7 +13,7 @@ module Concerns
     def search_by_pid(pid)
       pid_link = ""
       @search_list.select{|item| pid_link = item[:link] if item[:pid] == pid}
-      @site.scrape_by_pid(@site.url+pid_link)
+      @site.scrape_by_pid(@url+pid_link)
     end
 
     def items_with_price
@@ -37,11 +37,11 @@ module Concerns
   module Printable
 
     def print_items_by_price
-      sort_by_price.each{|item| puts "ID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
+      sort_by_price.each{|item| puts "PID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
     end
 
     def print_item_by_pid(pid)
-      @items.search_by_pid(pid)
+      search_by_pid(pid)
     end
 
   end
