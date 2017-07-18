@@ -7,12 +7,10 @@ class CL_Scraper
   attr_accessor :menu_hash, :all
   @@all = []
 
-  def initialize(url, category="for sale")
+  def initialize(url)
     @all = []
-    @category = category if category
     @url = url if url
     @menu_hash = {}
-    #scrape_for_sale_categories #Create menu hash on initialization
     @@all << self
   end
 
