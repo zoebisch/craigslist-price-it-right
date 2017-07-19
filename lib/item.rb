@@ -4,12 +4,7 @@ class Item
   @@all = []
 
   def initialize(item_hash)
-    item_hash.each do |key,value|
-      if key == "condition:"
-        binding.pry
-      end
-      self.send("#{key}=", value)
-    end
+    item_hash.each{|key,value| self.send("#{key}=", value)}
     @@all << self
   end
 

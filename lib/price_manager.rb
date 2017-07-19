@@ -34,23 +34,13 @@ class PriceManager
     while run
       case actions_menu
       when "category"
-        @category = category_menu #TODO handle nil response
-        @site.scrape_page(get_link_from_key)
-        #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
-        @items = Item.create_from_collection(@site.all)
+        process_category
       when "item"
-        puts "Please Enter your sale item:"
-        @item = gets.chomp.downcase
-        search_by_type
+        process_item
       when "price"
-        print_items_by_price
-        print_basic_stats
+        process_price
       when "pid"
-        puts "Please Enter the PID:"
-        @pid = gets.chomp
-        new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid))
-        new_item.merge_by_pid
-        print_item_by_pid
+        process_pid
       when "q"
         run = false
       end
@@ -69,6 +59,33 @@ class PriceManager
   def actions_menu
     MENU.each{|message| puts "#{message}"}
     gets.chomp
+  end
+
+  def process_category
+    @category = category_menu #TODO handle nil response
+    @site.scrape_page(get_link_from_key)
+    #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    @items = Item.create_from_collection(@site.all)
+  end
+
+  def process_item
+    puts "Please Enter your sale item:"
+    @item = gets.chomp.downcase
+    search_by_type
+  end
+
+  def process_pid
+    puts "Please Enter the PID:"
+    @pid = gets.chomp
+    new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid))
+    #binding.pry
+    #new_item.merge_by_pid
+    print_item_by_pid
+  end
+
+  def process_price
+    print_items_by_price
+    print_basic_stats
   end
 
   def category_menu

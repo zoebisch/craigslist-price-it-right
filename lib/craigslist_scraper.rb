@@ -75,7 +75,6 @@ class CL_Scraper
     end
     item_info[:timeago] = listing.search(".timeago")[0].text
     @items << item_info
-    binding.pry
   end
 
   def info_to_sym(input)
