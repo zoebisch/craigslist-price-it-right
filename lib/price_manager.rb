@@ -50,7 +50,7 @@ class PriceManager
       when "pid"
         puts "Please Enter the PID:"
         @pid = gets.chomp
-        new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid))
+        new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid)).merge_by_pid
         binding.pry
         print_item_by_pid
       when "q"

@@ -7,6 +7,10 @@ class Item
     @@all << self
   end
 
+  def self.merge_by_pid
+    binding.pry
+  end
+
   def self.create_from_collection(site_hash)
     site_hash.each{|hash| Item.new(hash)}
   end

@@ -46,7 +46,7 @@ module Concerns
     end
 
     def print_basic_stats
-      basic_stats.each_pair{|key,val| puts "#{key} is #{val}"}
+      basic_stats.each_pair{|key,val| puts "#{key} is #{val}"} if search_by_type != []
     end
 
   end
@@ -55,12 +55,14 @@ module Concerns
 
     def basic_stats
       values = items_with_price.collect{|item| item[:price]}
-      if values != [nil]
+      if values != [nil] || values != []
         @basic_stats[:volume] = values.count
         @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume]
         @basic_stats[:min] = values.min
         @basic_stats[:max] = values.max
+        binding.pry
       end
+      binding.pry
       @basic_stats
     end
 
