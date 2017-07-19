@@ -43,15 +43,12 @@ class PriceManager
         @item = gets.chomp.downcase
         search_by_type
       when "price"
-        #@items_with_price = search_by_type(@item)
         print_items_by_price
         print_basic_stats
-        basic_stats
       when "pid"
         puts "Please Enter the PID:"
         @pid = gets.chomp
         new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid)).merge_by_pid
-        binding.pry
         print_item_by_pid
       when "q"
         run = false

@@ -66,11 +66,20 @@ class CL_Scraper
       if attribute.children[1].text == "\nmore ads  by this user        "
         item_info[:other_ads] = attrgroup.search("a").attribute("href").text
       else
-        item_info[attribute.children[0].text] = attribute.children[1].text
+        item_info[info_to_sym(attribute)] = attribute.children[1].text
       end
     end
     item_info[:timeago] = listing.search(".timeago")[0].text
     @items << item_info
+  end
+
+  def info_to_sym(input)
+    binding.pry
+    if input.children[0].text.include?("/")
+      input.children[0].text.split("/")[0].strip.to_sym
+    else
+      input.children[0].text.split(":")[0].strip.to_sym
+    end
   end
 
   def noko_page(page=@url)

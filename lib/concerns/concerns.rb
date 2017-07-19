@@ -6,7 +6,6 @@ module Concerns
     @search_list = []
 
     def search_by_type
-      #Extend this to check any of the item's scraped attributes
       @site.all.select{|item| item if item[:title].include?(self.item)}
     end
 
@@ -60,9 +59,7 @@ module Concerns
         @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume]
         @basic_stats[:min] = values.min
         @basic_stats[:max] = values.max
-        binding.pry
       end
-      binding.pry
       @basic_stats
     end
 

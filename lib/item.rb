@@ -1,9 +1,14 @@
 class Item
-  attr_accessor :link, :pid, :title, :price, :condition, :location, :postingbody, :timeago, :other_ads
+  attr_accessor :link, :pid, :title, :price, :condition, :location, :postingbody, :manufacturer, :timeago, :other_ads
   @@all = []
 
   def initialize(item_hash)
-    item_hash.each{|key,value| self.send("#{key}=", value)}
+    item_hash.each do |key,value|
+      if key == "condition:"
+        binding.pry
+      end
+      self.send("#{key}=", value)
+    end
     @@all << self
   end
 
