@@ -10,9 +10,7 @@ module Concerns
     end
 
     def search_by_pid
-      pid_link = ""
-      @items.select{|item| pid_link = item[:link] if item[:pid] == @pid}
-      pid_link
+      @items.select{|item| item[:pid] == @pid}
     end
 
     def items_with_price

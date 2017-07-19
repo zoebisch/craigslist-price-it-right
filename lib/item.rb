@@ -1,6 +1,6 @@
 class Item
   attr_accessor :link, :pid, :title, :price, :condition, :location, :postingbody, :make, :model, :size, :timeago,
-                :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive
+                :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive, :year
   @@all = []
 
   def initialize(item_hash)
@@ -8,7 +8,7 @@ class Item
     @@all << self
   end
 
-  def merge_by_pid
+  def merge_by_pid(pid)
     binding.pry
   end
 
