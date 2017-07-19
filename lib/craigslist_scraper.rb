@@ -12,6 +12,7 @@ class CL_Scraper
 
   def initialize(url)
     @all = []
+    @items = []
     @url = url if url
     @menu_hash = {}
     @@all << self
@@ -65,7 +66,7 @@ class CL_Scraper
       item_info[attribute.children[0].text] = attribute.children[1].text
     end
     item_info[:timeago] = listing.search(".timeago")[0].text
-    item_info
+    @items << item_info
   end
 
   def noko_page(page=@url)

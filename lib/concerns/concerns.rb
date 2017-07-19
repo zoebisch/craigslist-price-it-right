@@ -10,10 +10,10 @@ module Concerns
       @site.all.select{|item| item if item[:title].include?(self.item)}
     end
 
-    def search_by_pid(pid)
+    def search_by_pid
       pid_link = ""
-      @items.select{|item| pid_link = item[:link] if item[:pid] == pid}
-      @site.scrape_by_pid(@url+pid_link)
+      @items.select{|item| pid_link = item[:link] if item[:pid] == @pid}
+      pid_link
     end
 
     def items_with_price
@@ -40,8 +40,13 @@ module Concerns
       sort_by_price.each{|item| puts "PID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
     end
 
-    def print_item_by_pid(pid)
-      search_by_pid(pid)
+    def print_item_by_pid
+      binding.pry
+      search_by_pid.each{|property| puts property.each_pair{}}
+    end
+
+    def print_basic_stats
+      basic_stats.each_pair{|key,val| puts "#{key} is #{val}"}
     end
 
   end

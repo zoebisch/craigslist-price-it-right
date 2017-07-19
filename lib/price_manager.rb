@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :site
+  attr_accessor :category, :item, :items, :site, :pid
   attr_reader :url, :menu
   include Concerns::Searchable
   include Concerns::Sortable
@@ -36,7 +36,7 @@ class PriceManager
       when "category"
         @category = category_menu #TODO handle nil response
         @site.scrape_page(get_link_from_key)
-        #@site.scrape_category(get_link_from_key)
+        #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
         @items = Item.create_from_collection(@site.all)
       when "item"
         puts "Please Enter your sale item:"
@@ -45,10 +45,14 @@ class PriceManager
       when "price"
         #@items_with_price = search_by_type(@item)
         print_items_by_price
+        print_basic_stats
         basic_stats
       when "pid"
         puts "Please Enter the PID:"
-        print_item_by_pid(gets.chomp)
+        @pid = gets.chomp
+        new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid))
+        binding.pry
+        print_item_by_pid
       when "q"
         run = false
       end
