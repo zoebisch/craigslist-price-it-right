@@ -12,6 +12,7 @@ class PriceManager
           "Available Actions:",
           "------------------------------------",
           "category -> View and Select Category",
+          "view     -> View Items in Category",
           "item     -> Enter Search Item",
           "price    -> View Price Information",
           "pid      -> View Item Advanced Info",
@@ -30,17 +31,25 @@ class PriceManager
   end
 
   def call
+    process_category
+    print_items_in_category
+    process_item
+    process_price
     run = true
     while run
       case actions_menu
       when "category"
         process_category
+      when "view"
+        print_items_in_category
       when "item"
         process_item
       when "price"
         process_price
       when "pid"
         process_pid
+      when "reset"
+        reset
       when "q"
         run = false
       end
@@ -49,11 +58,12 @@ class PriceManager
   end
 
   def reset
-      @category = category_menu
-      @site.scrape_page(get_link_from_key)
-      puts "Please Enter your sale item:"
-      @item = gets.chomp.downcase
+    binding.pry
+      @category.clear
+      @site.clear
+      @item.clear
       @basic_stats.clear
+      call
   end
 
   def actions_menu
@@ -63,6 +73,7 @@ class PriceManager
 
   def process_category
     @category = category_menu #TODO handle nil response
+    @category == "" || @category == nil ? @category = "for sale" : @category
     @site.scrape_page(get_link_from_key)
     #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     @items = Item.create_from_collection(@site.all)

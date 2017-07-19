@@ -35,6 +35,11 @@ module Concerns
 
   module Printable
 
+    def print_items_in_category
+      @items.each{|item| puts "PID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
+      puts "There are a total of #{@items.length} items in #{@category}"
+    end
+
     def print_items_by_price
       sort_by_price.each{|item| puts "PID: #{item[:pid]} :#{item[:title]} $#{item[:price]}"}
     end
