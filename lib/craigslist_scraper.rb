@@ -63,7 +63,11 @@ class CL_Scraper
     item_info[:postingbody] = listing.search("#postingbody").text
     attrgroup = listing.search(".attrgroup span")
     attrgroup.each do |attribute|
-      item_info[attribute.children[0].text] = attribute.children[1].text
+      if attribute.children[1].text == "\nmore ads  by this user        "
+        item_info[:other_ads] = attrgroup.search("a").attribute("href").text
+      else
+        item_info[attribute.children[0].text] = attribute.children[1].text
+      end
     end
     item_info[:timeago] = listing.search(".timeago")[0].text
     @items << item_info
