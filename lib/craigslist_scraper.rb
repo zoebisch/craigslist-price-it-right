@@ -63,23 +63,24 @@ class CL_Scraper
     item_info[:postingbody] = listing.search("#postingbody").text
     attrgroup = listing.search(".attrgroup span")
     attrgroup.each do |attribute|
-      if attribute.children[1].text == "\nmore ads  by this user        "
-        item_info[:other_ads] = attrgroup.search("a").attribute("href").text
+      if attribute.children[1] == nil
+        item_info[:year] = attribute.children[0].text  #special case, has no associated attrgroup identifier
       else
-        item_info[info_to_sym(attribute)] = attribute.children[1].text
+        if attribute.children[1].text == "\nmore ads  by this user        "
+          item_info[:other_ads] = attrgroup.search("a").attribute("href").text
+        else
+          item_info[info_to_sym(attribute)] = attribute.children[1].text
+        end
       end
     end
     item_info[:timeago] = listing.search(".timeago")[0].text
     @items << item_info
+    binding.pry
   end
 
   def info_to_sym(input)
-    binding.pry
-    if input.children[0].text.include?("/")
-      input.children[0].text.split("/")[0].strip.to_sym
-    else
-      input.children[0].text.split(":")[0].strip.to_sym
-    end
+    base = input.children[0].text.split(" ")[0]
+    base.include?(":") ? base.gsub(/:/, "").to_sym : base.to_sym
   end
 
   def noko_page(page=@url)
