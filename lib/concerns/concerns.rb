@@ -43,8 +43,7 @@ module Concerns
     end
 
     def print_item_by_pid
-      binding.pry
-      search_by_pid.each{|property| puts property.each_pair{}}
+      search_by_pid.each_pair{|key,value| puts "#{key} is #{value} \n"}
     end
 
     def print_basic_stats

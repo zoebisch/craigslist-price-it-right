@@ -72,8 +72,7 @@ class PriceManager
   end
 
   def process_category
-    @category = category_menu #TODO handle nil response
-    @category == "" || @category == nil ? @category = "for sale" : @category
+    category_menu
     @site.scrape_page(get_link_from_key)
     #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     @items = Item.create_from_collection(@site.all)
@@ -107,7 +106,8 @@ class PriceManager
     @menu.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     puts "-------------------------------------"
-    gets.strip.downcase
+    @category = gets.strip.downcase
+    category_menu if !@menu.has_key?(@category)
   end
 
 end

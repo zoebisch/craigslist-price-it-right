@@ -1,6 +1,7 @@
 class Item
   attr_accessor :link, :pid, :title, :price, :condition, :location, :postingbody, :make, :model, :size, :timeago,
-                :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive, :year
+                :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive, :year, :number, :cylinders, :odometer, :venue,
+                :type
   @@all = []
 
   def initialize(item_hash)
