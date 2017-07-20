@@ -11,6 +11,7 @@ class Item
 
   def merge_by_pid(pid)
     binding.pry
+    search_by_pid
   end
 
   def self.create_from_collection(site_hash)

@@ -43,7 +43,7 @@ module Concerns
     end
 
     def print_item_by_pid
-      search_by_pid.each_pair{|key,value| puts "#{key} is #{value} \n"}
+      search_by_pid[0].each_pair{|key,value| puts "#{key} is #{value} \n"}
     end
 
     def print_basic_stats

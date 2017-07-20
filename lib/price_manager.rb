@@ -88,8 +88,7 @@ class PriceManager
     puts "Please Enter the PID:"
     @pid = gets.chomp
     new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid[0][:link]))
-    binding.pry
-    #new_item.merge_by_pid
+    @items.merge_by_pid
     print_item_by_pid
   end
 
