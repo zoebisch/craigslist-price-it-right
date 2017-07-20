@@ -87,9 +87,16 @@ class PriceManager
   def process_pid
     puts "Please Enter the PID:"
     @pid = gets.chomp
-    new_item = Item.create_from_collection(@site.scrape_by_pid(@url+search_by_pid[0][:link]))
-    @items.merge_by_pid
-    print_item_by_pid
+    if search_by_pid != nil
+      binding.pry
+      item_details = @site.scrape_by_pid(@url+search_by_pid[0][:link])
+      Item.merge_item(@pid, item_details)
+      print_item_by_pid
+    else
+      puts "PID: #{@pid} no longer available"
+      print_item_by_pid
+      process_pid
+    end
   end
 
   def process_price

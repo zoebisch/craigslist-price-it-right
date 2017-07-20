@@ -68,7 +68,7 @@ class CL_Scraper
       else
         if attribute.children[1].text == "\nmore ads  by this user        "
           item_info[:other_ads] = attrgroup.search("a").attribute("href").text
-        elsif  attribute.children[1].text == "\n                        " 
+        elsif  attribute.children[0].text == "\n                        "
           item_info[:venue_date] = attribute.children[1].text
         else
           item_info[info_to_sym(attribute)] = attribute.children[1].text

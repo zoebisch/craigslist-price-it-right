@@ -9,9 +9,10 @@ class Item
     @@all << self
   end
 
-  def merge_by_pid(pid)
+  def self.merge_item(pid, item_details)
+    item = Item.all.select{|item| item.pid == pid.to_s}
+    item_details[0].each_pair{|key,value| item[0].send("#{key}=", value)}
     binding.pry
-    search_by_pid
   end
 
   def self.create_from_collection(site_hash)
