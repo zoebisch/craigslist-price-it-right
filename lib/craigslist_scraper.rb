@@ -40,6 +40,7 @@ class CL_Scraper
   end
 
   def scrape_page(page_url)
+    binding.pry
     puts "Scraping #{page_url}"
     listings = noko_page(page_url)
     item_array = []
