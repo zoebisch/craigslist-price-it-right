@@ -87,7 +87,7 @@ class CL_Scraper
     Nokogiri::HTML(open(page, 'User-Agent' => USER_AGENT[rand(0..USER_AGENT.length-1)]))
   end
 
-  def self.all
+  def all
     @@all
   end
 

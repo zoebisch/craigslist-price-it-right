@@ -45,7 +45,6 @@ class PriceManager
       when "item"
         process_item
       when "price"
-        binding.pry
         process_price
       when "pid"
         process_pid
@@ -74,8 +73,8 @@ class PriceManager
 
   def process_category
     category_menu
-    #@site.scrape_page(get_link_from_key)
-    @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    @site.scrape_page(get_link_from_key)
+    #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     @items = Item.create_from_collection(@site.all)
   end
 
