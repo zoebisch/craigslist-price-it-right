@@ -59,9 +59,6 @@ class PriceManager
 
   def reset
     binding.pry
-      @category.clear
-      @site.clear
-      @item.clear
       @basic_stats.clear
       call
   end
