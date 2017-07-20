@@ -26,13 +26,12 @@ class CL_Scraper
   end
 
   def scrape_category(category)
-    index_url = @url + "/search/" + category
-    listings = noko_page(index_url)
+    listings = noko_page(category)
     num_listings = listings.search(".totalcount").first.text.to_i
     num_per_page = 120
     page_count = 1
     while page_count <= (num_listings/num_per_page).floor
-      page_url = index_url + "?s=" + "#{page_count*num_per_page}"
+      page_url = category + "?s=" + "#{page_count*num_per_page}"
       scrape_page(page_url)
       sleep rand(5..8)           #Sleep to help avoid CL API from banning IP!
       page_count += 1
@@ -40,7 +39,6 @@ class CL_Scraper
   end
 
   def scrape_page(page_url)
-    binding.pry
     puts "Scraping #{page_url}"
     listings = noko_page(page_url)
     item_array = []
