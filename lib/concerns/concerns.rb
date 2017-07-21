@@ -10,7 +10,7 @@ module Concerns
     end
 
     def search_by_pid
-      @items.select{|item| item[:pid] == @pid}
+      Item.all.select{|item| item.pid == @pid}
     end
 
     def items_with_price
@@ -43,7 +43,12 @@ module Concerns
     end
 
     def print_item_by_pid
-      search_by_pid[0].each_pair{|key,value| puts "#{key} is #{value} \n"}
+      #search_by_pid[0].instance_variables.each{|key,value| puts "#{key} is #{value} \n"}
+       item = search_by_pid[0]
+       item.instance_variables.each do |var|
+         puts "#{var} is #{item.instance_variable_get(var)}"
+       end
+
     end
 
     def print_basic_stats

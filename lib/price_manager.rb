@@ -50,6 +50,8 @@ class PriceManager
         process_pid
       when "reset"
         reset
+      when "debug"
+        binding.pry
       when "q"
         run = false
       end
@@ -85,7 +87,7 @@ class PriceManager
     puts "Please Enter the PID:"
     @pid = gets.chomp
     if search_by_pid != nil
-      item_details = @site.scrape_by_pid(@url+search_by_pid[0][:link])
+      item_details = @site.scrape_by_pid(@url+search_by_pid[0].link)
       Item.merge_item(@pid, item_details)
       print_item_by_pid
     else
@@ -109,7 +111,11 @@ class PriceManager
     puts "Enter the category you want to browse"
     puts "-------------------------------------"
     @category = gets.strip.downcase
-    category_menu if !@menu.has_key?(@category)
+    if !@menu.has_key?(@category)
+      puts "Category: #{@category} not found! Please check the spelling."
+      sleep 1
+      category_menu
+    end
   end
 
 end
