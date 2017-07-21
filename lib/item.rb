@@ -1,11 +1,13 @@
 class Item
-  attr_accessor :link, :pid, :title, :price, :condition, :location, :postingbody, :make, :model, :size, :timeago,
+  attr_accessor :category, :url, :link, :pid, :title, :price, :condition, :location, :postingbody, :make, :model, :size, :timeago,
                 :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive, :year, :number, :cylinders, :odometer, :venue,
                 :venue_date, :type
+  # include Concerns::Mergable
   @@all = []
 
   def initialize(item_hash)
     item_hash.each{|key,value| self.send("#{key}=", value)}
+    #binding.pry
     @@all << self if !@@all.any?{|item| true if item.pid == self.pid }
   end
 

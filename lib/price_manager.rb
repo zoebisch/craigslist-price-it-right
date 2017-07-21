@@ -2,12 +2,13 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :items, :site, :pid
+  attr_accessor :category, :item, :site, :pid
   attr_reader :url, :menu
   include Concerns::Searchable
   include Concerns::Sortable
   include Concerns::Printable
   include Concerns::Statistical
+  include Concerns::Mergable
   MENU = ["                                    ",
           "Available Actions:",
           "------------------------------------",
@@ -74,7 +75,9 @@ class PriceManager
     category_menu
     @site.scrape_page(get_link_from_key)
     #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
-    @items = Item.create_from_collection(@site.all)
+    Item.create_from_collection(@site.all)
+    binding.pry
+    merge_price_manager_attr
   end
 
   def process_item
