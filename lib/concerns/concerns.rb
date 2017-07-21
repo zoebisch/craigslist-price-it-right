@@ -2,8 +2,6 @@ require 'pry'
 module Concerns
 
   module Searchable
-    attr_accessor :site
-    @search_list = []
 
     def search_by_type
       Item.all.select{|item| item if item.title.include?(self.item)}
@@ -19,6 +17,10 @@ module Concerns
 
     def items_with_price
       search_by_type.select{|item| item if item.price != nil}
+    end
+
+    def items_in_price_range
+      search_by_type.select{|item| item if item.price >= @min && item.price <= @max}
     end
 
     def get_link_from_key
@@ -83,6 +85,14 @@ module Concerns
         @basic_stats[:max] = values.max
       end
       @basic_stats
+    end
+
+    def filter_by_price
+      puts "Enter a minimum price"
+      @min = gets.chomp.to_i
+      puts "Enter a maximum price"
+      @max = gets.chomp.to_i
+      items_in_price_range
     end
 
   end

@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :pid
+  attr_accessor :category, :item, :pid, :min, :max
   attr_reader :url, :menu, :site
   include Concerns::Searchable
   include Concerns::Sortable
@@ -24,7 +24,6 @@ class PriceManager
 
   def initialize(url)
     @url = url
-    @items = []
     puts "OK, we are working with #{@url}"
     @site = CL_Scraper.new(@url)
     @menu = @site.scrape_for_sale_categories
@@ -35,7 +34,6 @@ class PriceManager
     process_category
     print_items_in_category
     process_item
-    process_price
     run = true
     while run
       case actions_menu
@@ -83,6 +81,7 @@ class PriceManager
     puts "Please Enter your sale item:"
     @item = gets.chomp.downcase
     search_by_type
+    process_price
   end
 
   def process_pid
@@ -95,7 +94,6 @@ class PriceManager
     else
       puts "PID: #{@pid} no longer available"
       print_item_by_pid
-      process_pid
     end
   end
 
