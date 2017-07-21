@@ -6,7 +6,7 @@ module Concerns
     @search_list = []
 
     def search_by_type
-      @site.all.select{|item| item if item[:title].include?(self.item)}
+      @items.select{|item| item if item[:title].include?(self.item)}
     end
 
     def search_by_pid
