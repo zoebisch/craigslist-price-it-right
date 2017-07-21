@@ -3,6 +3,7 @@ class Item
                 :other_ads, :VIN, :fuel, :paint, :title, :transmission, :drive, :year, :number, :cylinders, :odometer, :venue,
                 :venue_date, :type
   @@all = []
+  extend Concerns::Searchable
   extend Concerns::Mergable
 
   def initialize(item_hash)
