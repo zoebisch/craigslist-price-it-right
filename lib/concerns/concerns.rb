@@ -60,6 +60,13 @@ module Concerns
        item.url = @url if item.url== nil
      end
     end
+
+    def merge_item(pid, item_details)
+      item = Item.all.select{|item| item.pid == pid.to_s}
+      item_details[0].each_pair{|key,value| item[0].send("#{key}=", value)}
+      binding.pry
+    end
+
   end
 
   module Statistical
