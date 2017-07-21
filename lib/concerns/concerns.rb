@@ -9,6 +9,10 @@ module Concerns
       Item.all.select{|item| item if item.title.include?(self.item)}
     end
 
+    def search_by_category
+      Item.all.select{|item| item if item.category == @category}
+    end
+
     def search_by_pid
       Item.all.select{|item| item.pid == @pid}
     end
@@ -34,8 +38,8 @@ module Concerns
   module Printable
 
     def print_items_in_category
-      Item.all.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
-      puts "There are a total of #{Item.all.length} items in #{@category}"
+      search_by_category.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      puts "There are a total of #{search_by_category.length} items in #{@category}"
     end
 
     def print_items_by_price
@@ -64,7 +68,6 @@ module Concerns
     def merge_item(pid, item_details)
       item = Item.all.select{|item| item.pid == pid.to_s}
       item_details[0].each_pair{|key,value| item[0].send("#{key}=", value)}
-      binding.pry
     end
 
   end
