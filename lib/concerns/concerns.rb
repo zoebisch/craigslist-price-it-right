@@ -26,7 +26,7 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      items_with_price.sort{|a,b| a.price <=> b.price}
+      items_with_price.sort{|a,b| a.price <=> b.price} if items_with_price
     end
 
   end
@@ -43,7 +43,6 @@ module Concerns
     end
 
     def print_item_by_pid
-      binding.pry
        item = search_by_pid[0]
        item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"}
     end

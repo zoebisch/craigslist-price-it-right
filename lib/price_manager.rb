@@ -2,8 +2,8 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :site, :pid
-  attr_reader :url, :menu
+  attr_accessor :category, :item, :pid
+  attr_reader :url, :menu, :site
   include Concerns::Searchable
   include Concerns::Sortable
   include Concerns::Printable
@@ -76,7 +76,6 @@ class PriceManager
     @site.scrape_page(get_link_from_key)
     #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     Item.create_from_collection(@site.all)
-    binding.pry
     merge_price_manager_attr
   end
 
