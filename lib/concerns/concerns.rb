@@ -26,7 +26,7 @@ module Concerns
   module Sortable
 
     def sort_by_price
-      items_with_price.sort{|a,b| a.price <=> b.price} if items_with_price
+      items_with_price.sort{|a,b| a.price <=> b.price}
     end
 
   end
@@ -35,7 +35,7 @@ module Concerns
 
     def print_items_in_category
       Item.all.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
-      puts "There are a total of #{Item.all.length} items in #{@category}" #TODO MAKE THIS RIGHT
+      puts "There are a total of #{Item.all.length} items in #{@category}"
     end
 
     def print_items_by_price

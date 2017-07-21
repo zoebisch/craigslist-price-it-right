@@ -49,7 +49,7 @@ class CL_Scraper
       item_info[:link] = item.search("a")[1].attribute("href").text
       item_info[:price] = item.search(".result-price").first.text.gsub(/\$/, "").to_i if item.search(".result-price").first != nil
       item_info[:title] = item.search(".result-title").text.downcase
-      item_info[:location] = item.search(".result-info .result-meta .result-hood").text
+      item_info[:location] = item.search(".result-info .result-meta .result-hood").text if item.search(".result-info .result-meta .result-hood").text != ""
       @all << item_info
     end
   end
