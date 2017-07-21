@@ -3,16 +3,20 @@ module Concerns
 
   module Searchable
 
+    def search_items
+      Item.all.select{|item| yield(item)}
+    end
+
     def search_by_type
-      Item.all.select{|item| item if item.title.include?(self.item)}
+      search_items{|item| item if item.title.include?(self.item)}
     end
 
     def search_by_category
-      Item.all.select{|item| item if item.category == @category}
+      search_items{|item| item if item.category == @category}
     end
 
     def search_by_pid
-      Item.all.select{|item| item.pid == @pid}
+      search_items{|item| item.pid == @pid}
     end
 
     def items_with_price
