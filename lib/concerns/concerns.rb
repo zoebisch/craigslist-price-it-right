@@ -19,11 +19,11 @@ module Concerns
     end
 
     def items_with_price
-      search_by_type.select{|item| item if item.price != nil}
+      search_by_type.select{|item| item if item.price}
     end
 
     def items_in_price_range
-      items_with_price.select{|item| item if item.price >= @min && item.price <= @max}
+      items_with_price.select{|item| item if item.price.between?(@min,@max)}
     end
 
     def get_link_from_key
@@ -71,7 +71,7 @@ module Concerns
     def merge_price_manager_attr
       Item.all.each do |item|
        item.category = @category if item.category == nil
-       item.url = @url if item.url== nil
+       item.url = @url if item.url == nil
      end
     end
 

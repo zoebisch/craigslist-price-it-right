@@ -8,7 +8,7 @@ class Item
 
   def initialize(item_hash)
     item_hash.each{|key,value| self.send("#{key}=", value)}
-    @@all << self if !@@all.any?{|item| true if item.pid == self.pid }
+    @@all << self if @@all.none?{|item| item.pid == self.pid}
   end
 
   def self.create_from_collection(site_hash)
