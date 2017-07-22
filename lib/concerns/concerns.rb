@@ -57,7 +57,7 @@ module Concerns
 
     def print_item_by_pid
       item = search_by_pid[0]
-      item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"}
+      item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"} #We cannot know ahead of time which attributes will be populated!
     end
 
     def print_basic_stats

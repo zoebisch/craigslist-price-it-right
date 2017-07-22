@@ -5,10 +5,9 @@ class CL_Scraper
   USER_AGENT = ["Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
                 "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"]
-  PER_PAGE = 120
+  PER_PAGE = 120 #CL is broken into 120 items per page.  #USER_AGENT pool to pretend we are different browsers on a subnet.
 
   attr_accessor :menu_hash, :submenu_hash, :all
-  @@all = []
 
   def initialize(url)
     @all = []
@@ -16,7 +15,6 @@ class CL_Scraper
     @url = url if url
     @menu_hash = {}
     @submenu_hash = {}
-    @@all << self
   end
 
   def scrape_for_sale_categories
@@ -40,7 +38,6 @@ class CL_Scraper
   end
 
   def scrape_category(category)
-    binding.pry
     listings = noko_page(category)
     num_listings = listings.search(".totalcount").first.text.to_i
     page_count = 1
@@ -55,7 +52,6 @@ class CL_Scraper
   def scrape_page(page_url)
     puts "Scraping #{page_url}"
     listings = noko_page(page_url)
-    item_array = []
     item_list = listings.search(".rows .result-row")
     item_list.each do |item|
       item_info = {}
@@ -99,10 +95,6 @@ class CL_Scraper
 
   def noko_page(page=@url)
     Nokogiri::HTML(open(page, 'User-Agent' => USER_AGENT[rand(0..USER_AGENT.length-1)]))
-  end
-
-  def self.all
-    @@all
   end
 
 end

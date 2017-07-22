@@ -9,9 +9,9 @@ class PriceManager
   include Concerns::Printable
   include Concerns::Statistical
   include Concerns::Mergable
-  MENU = ["                                    ",
+  MENU =  ["\n",
           "Available Actions:",
-          "------------------------------------",
+          "----------------------------------------------",
           "category -> View and Select Category",
           "view     -> View Items in Category",
           "item     -> Enter Search Item",
@@ -19,13 +19,14 @@ class PriceManager
           "range    -> View Items in Range",
           "pid      -> View Item Advanced Info",
           "q        -> Quit",
-          "------------------------------------",
+          "----------------------------------------------",
           "Please type in your selection",
-          "------------------------------------"]
+          "----------------------------------------------"]
 
   def initialize(url)
     @url = url
     puts "OK, we are working with #{@url}"
+    sleep 1
     @site = CL_Scraper.new(@url)
     @site.scrape_for_sale_categories
     @stats = {}
@@ -65,15 +66,10 @@ class PriceManager
   end
 
   def process_category
-    category_menu
-    @site.scrape_category(check_subcategory_menu)
-    binding.pry
-    # else
-    #   @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
-    #   #@site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
-    # end
+    #@site.scrape_category(check_subcategory_menu)
+    @site.scrape_page(category_menu)
     Item.create_from_collection(@site.all)
-    merge_price_manager_attr
+    merge_price_manager_attr #If we select the same category, the data may have updated or stay same, avoid duplicates.
     print_items_in_category
   end
 
@@ -111,43 +107,20 @@ class PriceManager
   end
 
   def category_menu
-    puts "                                     "
-    puts "-------------------------------------"
+    puts "\n"
     puts "Available 'for sale' categories are:"
-    puts "-------------------------------------"
+    puts "----------------------------------------------"
     @site.menu_hash.each_key{|key| puts key}
+    puts "----------------------------------------------"
     puts "Enter the category you want to browse"
-    puts "-------------------------------------"
+    puts "----------------------------------------------"
     @category = gets.strip.downcase
     unless @site.menu_hash.has_key?(@category)
       puts "Category: #{@category} not found! Please check the spelling."
       sleep 1
       category_menu
     end
-  end
-
-  def subcategory_menu
-    puts "                                         "
-    puts "-----------------------------------------"
-    puts "Available categories in #{@category} are:"
-    puts "-----------------------------------------"
-    binding.pry
-    @site.submenu_hash.each_key{|key| puts key}
-    puts "-----------------------------------------"
-    puts "Enter the subcategory you want to browse"
-    puts "-----------------------------------------"
-    @subcategory = gets.strip
-    unless @site.submenu_hash.has_key?(@subcategory)
-      puts "Subcategory: #{@subcategory} not found! Please check the spelling."
-      sleep 1
-      subcategory_menu
-    else
-      puts "Please type in a selection from the following:"
-      puts "----------------------------------------------"
-      @site.submenu_hash.fetch(@subcategory).each_key{|key| puts key}
-      @url + @site.submenu_hash.fetch(@subcategory).fetch(gets.strip.upcase)
-      binding.pry
-    end
+    check_subcategory_menu
   end
 
   def check_subcategory_menu
@@ -160,5 +133,31 @@ class PriceManager
     end
   end
 
+  def subcategory_menu
+    puts "\n"
+    puts "----------------------------------------------"
+    puts "Available categories in #{@category} are:"
+    puts "----------------------------------------------"
+    @site.submenu_hash.each_key{|key| puts key}
+    puts "----------------------------------------------"
+    puts "Enter the subcategory you want to browse"
+    puts "----------------------------------------------"
+    @subcategory = gets.strip
+    unless @site.submenu_hash.has_key?(@subcategory)
+      puts "\n"
+      puts "******************************************************************"
+      puts "Subcategory: #{@subcategory} not found! Please check the spelling."
+      puts "******************************************************************"
+      sleep 1 #pause so user can see warning
+      subcategory_menu
+    else
+      puts "\n"
+      puts "Please type in a selection from the following:"
+      puts "----------------------------------------------"
+      @site.submenu_hash.fetch(@subcategory).each_key{|key| puts key.downcase}
+      puts "----------------------------------------------"
+      @url + @site.submenu_hash.fetch(@subcategory).fetch(gets.strip.upcase)
+    end
+  end
 
 end
