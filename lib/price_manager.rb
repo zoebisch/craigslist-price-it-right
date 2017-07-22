@@ -50,8 +50,6 @@ class PriceManager
         process_range
       when "pid"
         process_pid
-      when "reset"
-        reset
       when "debug"
       #  binding.pry
       when "q"
@@ -61,12 +59,6 @@ class PriceManager
 
   end
 
-  def reset
-    binding.pry
-      @basic_stats.clear
-      call
-  end
-
   def actions_menu
     MENU.each{|message| puts "#{message}"}
     gets.chomp
@@ -74,8 +66,8 @@ class PriceManager
 
   def process_category
     category_menu
-    #@site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
-    @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    @site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
+    #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     Item.create_from_collection(@site.all)
     merge_price_manager_attr
   end

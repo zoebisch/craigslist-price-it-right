@@ -86,7 +86,7 @@ module Concerns
 
     def basic_stats
       values = yield.collect{|item| item.price}
-      if values != [nil] && values != []
+      if values != []
         @stats[:volume] = values.count
         @stats[:mean] = values.reduce(:+)/@stats[:volume]
         @stats[:min] = values.min
