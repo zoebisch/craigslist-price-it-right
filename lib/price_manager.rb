@@ -1,4 +1,4 @@
-#require 'pry'
+require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
@@ -16,7 +16,7 @@ class PriceManager
           "view     -> View Items in Category",
           "item     -> Enter Search Item",
           "price    -> View Price Information",
-          "range    -> View Item in Range",
+          "range    -> View Items in Range",
           "pid      -> View Item Advanced Info",
           "q        -> Quit",
           "------------------------------------",
@@ -51,7 +51,7 @@ class PriceManager
       when "pid"
         process_pid
       when "debug"
-      #  binding.pry
+        binding.pry
       when "q"
         run = false
       end
@@ -66,10 +66,12 @@ class PriceManager
 
   def process_category
     category_menu
+
     @site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
     #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     Item.create_from_collection(@site.all)
     merge_price_manager_attr
+    print_items_in_category
   end
 
   def process_item
@@ -83,7 +85,6 @@ class PriceManager
     puts "Please Enter the PID:"
     @pid = gets.chomp
     if search_by_pid != []
-      binding.pry
       item_details = @site.scrape_by_pid(@url+search_by_pid[0].link)
       Item.merge_item(@pid, item_details)
       print_item_by_pid
@@ -120,6 +121,19 @@ class PriceManager
       sleep 1
       category_menu
     end
+    binding.pry
+      case @category
+      when "auto parts"
+         scrape_second_level_menus(category)
+      when "bikes"
+         scrape_second_level_menus(category)
+      when "boats"
+         scrape_second_level_menus(category)
+      when "cars+trucks"
+         scrape_second_level_menus(category)
+      when "motorcycles"
+         scrape_second_level_menus(category)
+      end
   end
 
 end

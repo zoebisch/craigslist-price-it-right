@@ -38,6 +38,10 @@ module Concerns
       items_with_price.sort{|a,b| a.price <=> b.price}
     end
 
+    def sort_by_location
+      search_by_type.sort{|a,b| a.location <=> b.location}
+    end
+
   end
 
   module Printable
@@ -52,8 +56,8 @@ module Concerns
     end
 
     def print_item_by_pid
-       item = search_by_pid[0]
-       item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"}
+      item = search_by_pid[0]
+      item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"}
     end
 
     def print_basic_stats
@@ -62,6 +66,7 @@ module Concerns
 
     def print_items_in_range
       items_in_price_range.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      puts "#{items_in_price_range.length} #{@item} found in #{@category} between $#{@min} and $#{@max}"
       basic_stats{items_in_price_range}.each_pair{|key,val| puts "#{key} is #{val}"}
     end
 

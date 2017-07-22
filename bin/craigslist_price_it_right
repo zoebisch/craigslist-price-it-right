@@ -4,7 +4,7 @@ require_relative '../config/environment'
 
 def main_menu
   puts "---------------------------------------------"
-  puts "     !Welcome to The Price is Right!"
+  puts "       !Welcome to Price it Right!"
   puts "     A Friendly Price Scraper for CL"
   puts "  To Begin, Let's Set the Default Page."
   puts "Please copy and paste the main CraigsList URL"

@@ -1,11 +1,11 @@
 require 'open-uri'
 require 'nokogiri'
-require 'pry'
 
 class CL_Scraper
   USER_AGENT = ["Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
                 "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"]
+  PER_PAGE = 120
 
   attr_accessor :menu_hash, :all
   @@all = []
@@ -25,13 +25,17 @@ class CL_Scraper
     #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
+  def scrape_second_level_menus(category)
+    
+
+  end
+
   def scrape_category(category)
     listings = noko_page(category)
     num_listings = listings.search(".totalcount").first.text.to_i
-    num_per_page = 120
     page_count = 1
-    while page_count <= (num_listings/num_per_page).floor
-      page_url = category + "?s=" + "#{page_count*num_per_page}"
+    while page_count <= (num_listings/PER_PAGE).floor
+      page_url = category + "?s=" + "#{page_count*PER_PAGE}"
       scrape_page(page_url)
       sleep rand(5..8)           #Sleep to help avoid CL API from banning IP!
       page_count += 1
