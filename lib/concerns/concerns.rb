@@ -1,4 +1,3 @@
-require 'pry'
 module Concerns
 
   module Searchable
@@ -24,7 +23,7 @@ module Concerns
     end
 
     def items_in_price_range
-      search_by_type.select{|item| item if item.price >= @min && item.price <= @max}
+      items_with_price.select{|item| item if item.price >= @min && item.price <= @max}
     end
 
     def get_link_from_key
@@ -58,7 +57,12 @@ module Concerns
     end
 
     def print_basic_stats
-      basic_stats.each_pair{|key,val| puts "#{key} is #{val}"} if search_by_type != []
+      basic_stats{items_with_price}.each_pair{|key,val| puts "#{key} is #{val}"}
+    end
+
+    def print_items_in_range
+      items_in_price_range.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      basic_stats{items_in_price_range}.each_pair{|key,val| puts "#{key} is #{val}"}
     end
 
   end
@@ -81,22 +85,14 @@ module Concerns
   module Statistical
 
     def basic_stats
-      values = items_with_price.collect{|item| item.price}
-      if values != [nil] || values != []
-        @basic_stats[:volume] = values.count
-        @basic_stats[:mean] = values.reduce(:+)/@basic_stats[:volume]
-        @basic_stats[:min] = values.min
-        @basic_stats[:max] = values.max
+      values = yield.collect{|item| item.price}
+      if values != [nil] && values != []
+        @stats[:volume] = values.count
+        @stats[:mean] = values.reduce(:+)/@stats[:volume]
+        @stats[:min] = values.min
+        @stats[:max] = values.max
       end
-      @basic_stats
-    end
-
-    def filter_by_price
-      puts "Enter a minimum price"
-      @min = gets.chomp.to_i
-      puts "Enter a maximum price"
-      @max = gets.chomp.to_i
-      items_in_price_range
+      @stats
     end
 
   end

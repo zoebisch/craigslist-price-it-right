@@ -1,8 +1,8 @@
-require 'pry'
+#require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :pid, :min, :max
+  attr_accessor :category, :item, :pid, :min, :max, :stats
   attr_reader :url, :menu, :site
   include Concerns::Searchable
   include Concerns::Sortable
@@ -16,10 +16,11 @@ class PriceManager
           "view     -> View Items in Category",
           "item     -> Enter Search Item",
           "price    -> View Price Information",
+          "range    -> View Item in Range",
           "pid      -> View Item Advanced Info",
           "q        -> Quit",
           "------------------------------------",
-          "  Please type in your selection",
+          "Please type in your selection",
           "------------------------------------"]
 
   def initialize(url)
@@ -27,7 +28,7 @@ class PriceManager
     puts "OK, we are working with #{@url}"
     @site = CL_Scraper.new(@url)
     @menu = @site.scrape_for_sale_categories
-    @basic_stats = {}
+    @stats = {}
   end
 
   def call
@@ -45,12 +46,14 @@ class PriceManager
         process_item
       when "price"
         process_price
+      when "range"
+        process_range
       when "pid"
         process_pid
       when "reset"
         reset
       when "debug"
-        binding.pry
+      #  binding.pry
       when "q"
         run = false
       end
@@ -71,8 +74,8 @@ class PriceManager
 
   def process_category
     category_menu
-    @site.scrape_page(get_link_from_key)
-    #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    #@site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
+    @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     Item.create_from_collection(@site.all)
     merge_price_manager_attr
   end
@@ -100,6 +103,14 @@ class PriceManager
   def process_price
     print_items_by_price
     print_basic_stats
+  end
+
+  def process_range
+    puts "Enter a minimum price"
+    @min = gets.chomp.to_i
+    puts "Enter a maximum price"
+    @max = gets.chomp.to_i
+    print_items_in_range
   end
 
   def category_menu
