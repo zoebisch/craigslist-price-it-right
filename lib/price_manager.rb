@@ -66,9 +66,11 @@ class PriceManager
 
   def process_category
     category_menu
-
-    @site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
-    #@site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    @site.scrape_category(check_subcategory_menu)
+    # else
+    #   @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
+    #   #@site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
+    # end
     Item.create_from_collection(@site.all)
     merge_price_manager_attr
     print_items_in_category
@@ -121,19 +123,27 @@ class PriceManager
       sleep 1
       category_menu
     end
-    binding.pry
-      case @category
-      when "auto parts"
-         scrape_second_level_menus(category)
-      when "bikes"
-         scrape_second_level_menus(category)
-      when "boats"
-         scrape_second_level_menus(category)
-      when "cars+trucks"
-         scrape_second_level_menus(category)
-      when "motorcycles"
-         scrape_second_level_menus(category)
-      end
   end
+
+  def check_subcategory_menu
+    case @category
+    when "auto parts"
+      @site.scrape_second_level_menus(get_link_from_key)
+    when "bikes"
+      @site.scrape_second_level_menus(get_link_from_key)
+      binding.pry
+    when "boats"
+      @site.scrape_second_level_menus(get_link_from_key)
+    when "cars+trucks"
+      @site.scrape_second_level_menus(get_link_from_key)
+    when "computers"
+      @site.scrape_second_level_menus(get_link_from_key)
+    when "motorcycles"
+      @site.scrape_second_level_menus(get_link_from_key)
+    else
+      get_link_from_key
+    end
+  end
+
 
 end

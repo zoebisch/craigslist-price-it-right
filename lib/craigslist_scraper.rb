@@ -15,6 +15,7 @@ class CL_Scraper
     @items = []
     @url = url if url
     @menu_hash = {}
+    @submenu_hash = {}
     @@all << self
   end
 
@@ -25,9 +26,17 @@ class CL_Scraper
     #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
-  def scrape_second_level_menus(category)
-    
-
+  def scrape_second_level_menus(main_category)
+    sub_page = noko_page(main_category)
+    sub_lists = sub_page.search(".ul a")
+    sub_headers = sub_page.search("h3")
+    sub_headers.each do |header|
+      @submenu_hash[header.text] = {}
+      sub_lists.each do |item|
+        @submenu_hash[header.text][item.text] = item.attribute("href").text
+      end
+    end
+    @submenu_hash
   end
 
   def scrape_category(category)
