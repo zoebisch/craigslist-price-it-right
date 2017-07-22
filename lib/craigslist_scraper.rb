@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
-
+require 'pry'
 class CL_Scraper
   USER_AGENT = ["Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
@@ -24,6 +24,7 @@ class CL_Scraper
   end
 
   def scrape_second_level_menus(main_category)
+    @submenu_hash.clear
     sub_page = noko_page(main_category)
     sub_lists = sub_page.search(".ul")
     sub_headers = sub_page.search("h3")
@@ -84,7 +85,7 @@ class CL_Scraper
         end
       end
     end
-    item_info[:timeago] = listing.search(".timeago")[0].text
+    item_info[:timeago] = listing.search(".timeago").first.text
     @items << item_info
   end
 

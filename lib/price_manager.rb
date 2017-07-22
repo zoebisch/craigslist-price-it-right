@@ -66,8 +66,8 @@ class PriceManager
   end
 
   def process_category
-    #@site.scrape_category(check_subcategory_menu)
-    @site.scrape_page(category_menu)
+    @site.scrape_category(check_subcategory_menu)
+    #@site.scrape_page(category_menu)
     Item.create_from_collection(@site.all)
     merge_price_manager_attr #If we select the same category, the data may have updated or stay same, avoid duplicates.
     print_items_in_category
@@ -84,8 +84,7 @@ class PriceManager
     puts "Please Enter the PID:"
     @pid = gets.chomp
     if search_by_pid != []
-      item_details = @site.scrape_by_pid(@url+search_by_pid[0].link)
-      Item.merge_item(@pid, item_details)
+      Item.merge_item(@pid, @site.scrape_by_pid(@url+search_by_pid.link))
       print_item_by_pid
     else
       puts "PID: #{@pid} unavailable in #{@category}"
@@ -134,17 +133,16 @@ class PriceManager
   end
 
   def subcategory_menu
-    puts "\n"
     puts "----------------------------------------------"
     puts "Available categories in #{@category} are:"
     puts "----------------------------------------------"
     @site.submenu_hash.each_key{|key| puts key}
     puts "----------------------------------------------"
+    puts "\n"
     puts "Enter the subcategory you want to browse"
     puts "----------------------------------------------"
     @subcategory = gets.strip
     unless @site.submenu_hash.has_key?(@subcategory)
-      puts "\n"
       puts "******************************************************************"
       puts "Subcategory: #{@subcategory} not found! Please check the spelling."
       puts "******************************************************************"
@@ -154,9 +152,9 @@ class PriceManager
       puts "\n"
       puts "Please type in a selection from the following:"
       puts "----------------------------------------------"
-      @site.submenu_hash.fetch(@subcategory).each_key{|key| puts key.downcase}
+      get_subcategory_info.each_key{|key| puts key.downcase}
       puts "----------------------------------------------"
-      @url + @site.submenu_hash.fetch(@subcategory).fetch(gets.strip.upcase)
+      @url + get_subcategory_info.fetch(gets.strip.upcase)
     end
   end
 

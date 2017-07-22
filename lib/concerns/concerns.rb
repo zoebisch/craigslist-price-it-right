@@ -15,7 +15,7 @@ module Concerns
     end
 
     def search_by_pid
-      search_items{|item| item.pid == @pid}
+      search_items{|item| item.pid == @pid}.first
     end
 
     def items_with_price
@@ -28,6 +28,10 @@ module Concerns
 
     def get_link_from_key
       @site.menu_hash.fetch(self.category)
+    end
+
+    def get_subcategory_info
+      @site.submenu_hash.fetch(@subcategory)
     end
 
   end
@@ -47,17 +51,17 @@ module Concerns
   module Printable
 
     def print_items_in_category
-      search_by_category.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      search_by_category.each{|item| puts "pid: #{item.pid} :#{item.title} $#{item.price}"}
       puts "There are a total of #{search_by_category.length} items in #{@category}"
     end
 
     def print_items_by_price
-      sort_by_price.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      sort_by_price.each{|item| puts "pid: #{item.pid} :#{item.title} $#{item.price}"}
     end
 
     def print_item_by_pid
-      item = search_by_pid[0]
-      item.instance_variables.each{|var| puts "#{var} is #{item.instance_variable_get(var)}"} #We cannot know ahead of time which attributes will be populated!
+      item = search_by_pid
+      item.instance_variables.each{|var| puts "#{var.to_s.gsub(/@/,"")}: #{item.instance_variable_get(var)}"} #We cannot know ahead of time which attributes will be populated!
     end
 
     def print_basic_stats
@@ -65,7 +69,7 @@ module Concerns
     end
 
     def print_items_in_range
-      items_in_price_range.each{|item| puts "PID: #{item.pid} :#{item.title} $#{item.price}"}
+      items_in_price_range.each{|item| puts "pid: #{item.pid} :#{item.title} $#{item.price}"}
       puts "#{items_in_price_range.length} #{@item} found in #{@category} between $#{@min} and $#{@max}"
       basic_stats{items_in_price_range}.each_pair{|key,val| puts "#{key} is #{val}"}
     end
@@ -73,6 +77,7 @@ module Concerns
   end
 
   module Mergable
+
     def merge_price_manager_attr
       Item.all.each do |item|
        item.category = @category if item.category == nil
@@ -81,8 +86,8 @@ module Concerns
     end
 
     def merge_item(pid, item_details)
-      item = search_items{|item| item.pid == pid.to_s}
-      item_details[0].each_pair{|key,value| item[0].send("#{key}=", value)}
+      item = search_items{|item| item.pid == pid.to_s}.first
+      item_details.first.each_pair{|key,value| item.send("#{key}=", value)}
     end
 
   end
