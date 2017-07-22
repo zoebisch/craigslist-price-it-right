@@ -7,7 +7,7 @@ class CL_Scraper
                 "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"]
   PER_PAGE = 120
 
-  attr_accessor :menu_hash, :all
+  attr_accessor :menu_hash, :submenu_hash, :all
   @@all = []
 
   def initialize(url)
@@ -23,23 +23,24 @@ class CL_Scraper
     sss = noko_page.search("#center #sss a")
     sss.each{|category| @menu_hash[category.children.text] = @url + category.attribute("href").text}
     @menu_hash
-    #TODO: bikes, boats, autos, auto_parts all need to be drilled into
   end
 
   def scrape_second_level_menus(main_category)
     sub_page = noko_page(main_category)
-    sub_lists = sub_page.search(".ul a")
+    sub_lists = sub_page.search(".ul")
     sub_headers = sub_page.search("h3")
     sub_headers.each do |header|
-      @submenu_hash[header.text] = {}
+      @submenu_hash[header.text.downcase] = {}
       sub_lists.each do |item|
-        @submenu_hash[header.text][item.text] = item.attribute("href").text
+        info = item.search("a")
+        @submenu_hash[header.text.downcase][info[0].text] = info.attribute("href").text
       end
     end
     @submenu_hash
   end
 
   def scrape_category(category)
+    binding.pry
     listings = noko_page(category)
     num_listings = listings.search(".totalcount").first.text.to_i
     page_count = 1

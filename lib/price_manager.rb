@@ -2,7 +2,7 @@ require 'pry'
 require_relative './concerns/concerns.rb'
 
 class PriceManager
-  attr_accessor :category, :item, :pid, :min, :max, :stats
+  attr_accessor :category, :subcategory, :item, :pid, :min, :max, :stats
   attr_reader :url, :menu, :site
   include Concerns::Searchable
   include Concerns::Sortable
@@ -27,7 +27,7 @@ class PriceManager
     @url = url
     puts "OK, we are working with #{@url}"
     @site = CL_Scraper.new(@url)
-    @menu = @site.scrape_for_sale_categories
+    @site.scrape_for_sale_categories
     @stats = {}
   end
 
@@ -67,6 +67,7 @@ class PriceManager
   def process_category
     category_menu
     @site.scrape_category(check_subcategory_menu)
+    binding.pry
     # else
     #   @site.scrape_category(get_link_from_key) #Warning An IP Ban is possible!
     #   #@site.scrape_page(get_link_from_key) #Scrape by individual page, safe for testing
@@ -114,32 +115,46 @@ class PriceManager
     puts "-------------------------------------"
     puts "Available 'for sale' categories are:"
     puts "-------------------------------------"
-    @menu.each_key{|key| puts key}
+    @site.menu_hash.each_key{|key| puts key}
     puts "Enter the category you want to browse"
     puts "-------------------------------------"
     @category = gets.strip.downcase
-    unless @menu.has_key?(@category)
+    unless @site.menu_hash.has_key?(@category)
       puts "Category: #{@category} not found! Please check the spelling."
       sleep 1
       category_menu
     end
   end
 
-  def check_subcategory_menu
-    case @category
-    when "auto parts"
-      @site.scrape_second_level_menus(get_link_from_key)
-    when "bikes"
-      @site.scrape_second_level_menus(get_link_from_key)
+  def subcategory_menu
+    puts "                                         "
+    puts "-----------------------------------------"
+    puts "Available categories in #{@category} are:"
+    puts "-----------------------------------------"
+    binding.pry
+    @site.submenu_hash.each_key{|key| puts key}
+    puts "-----------------------------------------"
+    puts "Enter the subcategory you want to browse"
+    puts "-----------------------------------------"
+    @subcategory = gets.strip
+    unless @site.submenu_hash.has_key?(@subcategory)
+      puts "Subcategory: #{@subcategory} not found! Please check the spelling."
+      sleep 1
+      subcategory_menu
+    else
+      puts "Please type in a selection from the following:"
+      puts "----------------------------------------------"
+      @site.submenu_hash.fetch(@subcategory).each_key{|key| puts key}
+      @url + @site.submenu_hash.fetch(@subcategory).fetch(gets.strip.upcase)
       binding.pry
-    when "boats"
+    end
+  end
+
+  def check_subcategory_menu
+    list = ["auto parts", "bikes", "boats", "cars+trucks", "computers", "motorcycles"]
+    if list.include?(@category)
       @site.scrape_second_level_menus(get_link_from_key)
-    when "cars+trucks"
-      @site.scrape_second_level_menus(get_link_from_key)
-    when "computers"
-      @site.scrape_second_level_menus(get_link_from_key)
-    when "motorcycles"
-      @site.scrape_second_level_menus(get_link_from_key)
+      subcategory_menu
     else
       get_link_from_key
     end
