@@ -11,7 +11,6 @@ class CL_Scraper
 
   def initialize(url)
     @all = []
-    @items = []
     @url = url if url
     @menu_hash = {}
     @submenu_hash = {}
@@ -86,7 +85,6 @@ class CL_Scraper
       end
     end
     item_info[:timeago] = listing.search(".timeago").first.text
-    @items << item_info
     item_info
   end
 
