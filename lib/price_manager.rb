@@ -34,8 +34,6 @@ class PriceManager
 
   def call
     process_category
-    print_items_in_category
-    process_item
     run = true
     while run
       case actions_menu
@@ -71,6 +69,7 @@ class PriceManager
     Item.create_from_collection(@site.all)
     merge_price_manager_attr #Set item category and url if they are not set.
     print_items_in_category
+    process_item
   end
 
   def process_item
