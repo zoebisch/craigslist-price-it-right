@@ -66,8 +66,7 @@ class PriceManager
   end
 
   def process_category
-    category_menu
-    @site.scrape_category(check_subcategory_menu)
+    @site.scrape_category(category_menu)
     #@site.scrape_page(category_menu) #Better for testing.
     Item.create_from_collection(@site.all)
     merge_price_manager_attr #Set item category and url if they are not set.
@@ -155,7 +154,8 @@ class PriceManager
       puts "----------------------------------------------"
       get_subcategory_info.each_key{|key| puts key.downcase}
       puts "----------------------------------------------"
-      @url + get_subcategory_info.fetch(gets.strip.upcase)
+      choice = gets.strip.upcase
+      @url + get_subcategory_info.fetch(choice)
     end
   end
 

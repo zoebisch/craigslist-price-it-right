@@ -1,5 +1,5 @@
-require 'bundler'
-Bundler.require
+# require 'bundler'
+# Bundler.require
 
 require_relative '../lib/price_manager.rb'
 require_relative '../lib/craigslist_scraper.rb'
