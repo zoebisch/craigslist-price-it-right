@@ -87,7 +87,7 @@ module Concerns
 
     def merge_item(pid, item_details)
       item = search_items{|item| item.pid == pid.to_s}.first
-      item_details.first.each_pair{|key,value| item.send("#{key}=", value)}
+      item_details.each_pair{|key,value| item.send("#{key}=", value)}
     end
 
   end
