@@ -68,9 +68,9 @@ class PriceManager
   def process_category
     category_menu
     @site.scrape_category(check_subcategory_menu)
-    #@site.scrape_page(category_menu)
+    #@site.scrape_page(category_menu) #Better for testing.
     Item.create_from_collection(@site.all)
-    merge_price_manager_attr #If we select the same category, the data may have updated or stay same, avoid duplicates.
+    merge_price_manager_attr #Set item category and url if they are not set.
     print_items_in_category
   end
 
