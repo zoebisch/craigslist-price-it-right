@@ -87,6 +87,7 @@ class CL_Scraper
     end
     item_info[:timeago] = listing.search(".timeago").first.text
     @items << item_info
+    item_info
   end
 
   def info_to_sym(attribute)
