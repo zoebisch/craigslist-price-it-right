@@ -66,6 +66,7 @@ class PriceManager
   end
 
   def process_category
+    category_menu
     @site.scrape_category(check_subcategory_menu)
     #@site.scrape_page(category_menu)
     Item.create_from_collection(@site.all)
