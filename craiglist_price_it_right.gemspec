@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'craigslist_price_it_right/version'
+require 'craiglist_price_it_right/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "craigslist_price_it_right"
-  spec.version       = CraigslistPriceItRight::VERSION
+  spec.name          = "craiglist_price_it_right"
+  spec.version       = CraiglistPriceItRight::VERSION
   spec.authors       = ["zoebisch"]
   spec.email         = ["zoebisch@gmail.com"]
 

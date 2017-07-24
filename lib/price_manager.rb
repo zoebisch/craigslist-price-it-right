@@ -1,6 +1,3 @@
-require 'pry'
-require_relative './concerns/concerns.rb'
-
 class PriceManager
   attr_accessor :category, :subcategory, :item, :pid, :min, :max, :stats
   attr_reader :url, :menu, :site
@@ -9,7 +6,7 @@ class PriceManager
   include Concerns::Printable
   include Concerns::Statistical
   include Concerns::Mergable
-  MENU =  ["\n",
+  MENU = ["\n",
           "Available Actions:",
           "----------------------------------------------",
           "category -> View and Select Category",
