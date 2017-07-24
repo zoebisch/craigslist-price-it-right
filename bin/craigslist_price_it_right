@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require './lib/cl_price_it_right'
 require_relative '../config/environment'
 
 CraigslistPriceItRight::CLI.new.call
