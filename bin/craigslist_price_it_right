@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require './lib/cl_price_it_right'
+require_relative '../config/environment'
+#require 'nokogiri'
+CraigslistPriceItRight::CLI.new.call
