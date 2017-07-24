@@ -86,7 +86,8 @@ module Concerns
       Item.all.each do |item|
        item.category = @category if item.category == nil
        item.url = @url if item.url == nil
-     end
+    end
+    
     end
 
     def merge_item(pid, item_details)

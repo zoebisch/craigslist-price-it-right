@@ -9,7 +9,7 @@ class PriceManager
   include Concerns::Printable
   include Concerns::Statistical
   include Concerns::Mergable
-  MENU =  ["\n",
+  MENU = ["\n",
           "Available Actions:",
           "----------------------------------------------",
           "category -> View and Select Category",
@@ -34,6 +34,7 @@ class PriceManager
 
   def call
     process_category
+
     run = true
     while run
       case actions_menu
