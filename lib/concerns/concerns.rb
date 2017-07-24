@@ -86,9 +86,16 @@ module Concerns
       Item.all.each do |item|
        item.category = @category if item.category == nil
        item.url = @url if item.url == nil
+<<<<<<< HEAD
       end
     end
     
+=======
+    end
+    
+    end
+
+>>>>>>> master
     def merge_item(pid, item_details)
       item = search_items{|item| item.pid == pid.to_s}.first
       item_details.each_pair{|key,value| item.send("#{key}=", value)}

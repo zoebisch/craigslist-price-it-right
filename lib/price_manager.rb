@@ -31,6 +31,10 @@ class PriceManager
 
   def call
     process_category
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     run = true
     while run
       case actions_menu
