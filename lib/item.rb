@@ -5,7 +5,6 @@ class Item
   extend Concerns::Mergable
   @@all = []
 
-
   def initialize(item_hash)
     item_hash.each{|key,value| self.send("#{key}=", value)}
     @@all << self if @@all.none?{|item| item.pid == self.pid}

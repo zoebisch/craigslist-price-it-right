@@ -87,10 +87,13 @@ module Concerns
        item.category = @category if item.category == nil
        item.url = @url if item.url == nil
 <<<<<<< HEAD
+<<<<<<< HEAD
       end
     end
     
 =======
+=======
+>>>>>>> df68e99e0cee46b4d683e33ca9b550fc5a07cec4
     end
     
     end
