@@ -1,6 +1,3 @@
-#require 'pry'
-#require_relative './concerns/concerns.rb'
-
 class PriceManager
   attr_accessor :category, :subcategory, :item, :pid, :min, :max, :stats
   attr_reader :url, :menu, :site
