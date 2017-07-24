@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["zoebisch"]
   spec.email         = ["zoebisch@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = "Craigslist scraper program for helping to price an item for sale"
+  spec.description   = "Program sets up menu from scraped for-sale items, allows user to select a category, drills into second level data and self constructs sub-menu, allows user to search for a for-sale item, returns list of items, can sort by price, sort by price range, third level scraping and auto-object-merge based on CL pid"
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "nokogiri", "~> 1.8"
 end
