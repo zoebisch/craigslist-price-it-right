@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Craigslist scraper program for helping to price an item for sale"
   spec.description   = "Program sets up menu from scraped for-sale items, allows user to select a category, drills into second level data and self constructs sub-menu, allows user to search for a for-sale item, returns list of items, can sort by price, sort by price range, third level scraping and auto-object-merge based on CL pid"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/zoebisch/craigslist-price-it-right"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

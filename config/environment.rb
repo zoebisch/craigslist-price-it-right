@@ -1,5 +1,5 @@
-# require "nokogiri"
-# require "open-uri"
+require "nokogiri"
+require "open-uri"
 
 require_relative '../lib/concerns/concerns.rb'
 require_relative '../lib/craigslist_price_it_right/version'
