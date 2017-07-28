@@ -47,7 +47,7 @@ class PriceManager
       when "pid"
         process_pid
       when "debug"
-        binding.pry
+        #binding.pry #uncomment this line and require 'pry' to allow debug session
       when "q"
         run = false
       end

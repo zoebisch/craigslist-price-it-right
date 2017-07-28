@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+#require 'pry' #uncomment this to enable debugging session
 
 require_relative '../lib/concerns/concerns.rb'
 require_relative '../lib/craigslist_price_it_right/version'
