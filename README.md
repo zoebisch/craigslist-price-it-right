@@ -48,6 +48,10 @@ Program attempts to form novel price analysis:
 
   main menu is self-explanatory and interactive
 
+## Limitations
+
+It should be noted that CL on larger sites appears to pull listings from what is immediately visible at the browser level. I stumbled upon this when one of my listings did not appear in furniture nor in the for sale category.  My guess is that stale (or reposts) are only accessible through a search string query and cannot be brought up any other way.  In other words a scraping method will always be limited to more current listing.  While this does not change the intent or dynamic of the program intent, it does add another future layer that will have to do direct queries for a search string in order to truly pull in all items of that kind. Go ahead and prove this to yourself, that is if you have an old listing.  It won't appear in the browse. 
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
