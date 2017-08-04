@@ -47,7 +47,7 @@ class PriceManager
       when "pid"
         process_pid
       when "debug"
-        #binding.pry #uncomment this line and require 'pry' to allow debug session
+        binding.pry #uncomment this line and require 'pry' to allow debug session
       when "q"
         run = false
       end
@@ -61,8 +61,8 @@ class PriceManager
   end
 
   def process_category
-    @site.scrape_category(category_menu)
-    #@site.scrape_page(category_menu) #Better for testing.
+    #@site.scrape_category(category_menu)
+    @site.scrape_page(category_menu) #Better for testing.
     Item.create_from_collection(@site.all)
     merge_price_manager_attr #Set item category and url if they are not set.
     print_items_in_category
