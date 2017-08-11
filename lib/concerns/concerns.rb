@@ -112,7 +112,6 @@ module Concerns
 
     def quartile
       values = yield.collect{|item| item.price}
-      binding.pry
       if values != []
         @stat[:volume] = values.length #TODO clean up stuff double check on rounding math for indeces
         if @stats[:volume] % 2 == 0
