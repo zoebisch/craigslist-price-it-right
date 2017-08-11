@@ -38,7 +38,7 @@ class CL_Scraper
     listings = noko_page(category)
     num_listings = listings.search(".totalcount").first.text.to_i
     page_count = 1
-    while page_count <= (num_listings/PER_PAGE).floor
+    while page_count <= (num_listings/PER_PAGE).floor + 1
       page_url = category + "?s=" + "#{page_count*PER_PAGE}"
       scrape_page(page_url)
       sleep rand(5..8)           #Sleep to help avoid CL API from banning IP!

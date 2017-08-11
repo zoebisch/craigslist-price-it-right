@@ -114,7 +114,7 @@ module Concerns
       values = yield.collect{|item| item.price}
       binding.pry
       if values != []
-        @stat[:volume] = values.length #TODO clean up stuff
+        @stat[:volume] = values.length #TODO clean up stuff double check on rounding math for indeces
         if @stats[:volume] % 2 == 0
           @stats[:median] = (values[@stats[:volume]/2] + values[@stats[:volume]/2 - 1]) / 2
           q1 = values[@stats[:volume]/4]
@@ -124,6 +124,7 @@ module Concerns
           @stats[:median] = values[mid]
           q1 = values[mid/2]
           q3 = values[mid + mid/2]
+        end
       end
       iqr = q3 - q1
       iqr1 = q1 - 1.5 * iqr
