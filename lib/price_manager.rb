@@ -65,8 +65,8 @@ class PriceManager
   end
 
   def process_category
-    @site.scrape_category(category_menu)
-    #@site.scrape_page(category_menu) #Better for testing.
+    #@site.scrape_category(category_menu)
+    @site.scrape_page(category_menu) #Better for testing.
     Item.create_from_collection(@site.all)
     merge_price_manager_attr #Set item category and url if they are not set.
     print_items_in_category
@@ -84,7 +84,7 @@ class PriceManager
     puts "Please Enter the PID:"
     @pid = gets.chomp
     if search_by_pid != []
-      Item.merge_item(@pid, @site.scrape_by_pid(@url+search_by_pid.link))
+      Item.merge_item(@pid, @site.scrape_by_pid(search_by_pid.link))
       print_item_by_pid
     else
       puts "PID: #{@pid} unavailable in #{@category}"
