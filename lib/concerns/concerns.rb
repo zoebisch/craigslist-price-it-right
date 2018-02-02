@@ -86,8 +86,7 @@ module Concerns
       Item.all.each do |item|
        item.category = @category if item.category == nil
        item.url = @url if item.url == nil
-    end
-    
+      end
     end
 
     def merge_item(pid, item_details)
@@ -106,8 +105,30 @@ module Concerns
         @stats[:mean] = values.reduce(:+)/@stats[:volume]
         @stats[:min] = values.min
         @stats[:max] = values.max
+        @stats[:range] = @stats[:max] - @stats[:min]
       end
       @stats
+    end
+
+    def quartile
+      values = yield.collect{|item| item.price}
+      if values != []
+        @stat[:volume] = values.length #TODO clean up stuff double check on rounding math for indeces
+        if @stats[:volume] % 2 == 0
+          @stats[:median] = (values[@stats[:volume]/2] + values[@stats[:volume]/2 - 1]) / 2
+          q1 = values[@stats[:volume]/4]
+          q3 = values[@stats[:volume]/2 + @stats[:volume]/4]
+        else
+          mid = @stats[:volume]/2
+          @stats[:median] = values[mid]
+          q1 = values[mid/2]
+          q3 = values[mid + mid/2]
+        end
+      end
+      iqr = q3 - q1
+      iqr1 = q1 - 1.5 * iqr
+      iqr3 = q3 + 1.5 * iqr
+      values.collect{|value| value if value.between?(iqr1,iqr3)}
     end
 
   end

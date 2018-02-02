@@ -1,22 +1,10 @@
+# CraigslistPriceItRight
+
 The Price is Right
 
 A CLI to scrape similar sale items from Craigslist to help form a suggested price.
 
-***Use this at your own risk!  Although I have done my best to shield the user from an IP ban from Craigslist, there is no guarantee this will not happen as CL is rather strict on people scraping information from their sites. If this happens, you can appeal to CL (assuming you are not doing anything commercial with this code) and request a removal of the ban.***
-
-Program Flow:
-User selects which Craigslist site to use (copy/paste, type. Default is set in code to https://seattle.craigslist.org)
-User selects Craigslist category from scraped categories
-Program scrapes all potential instances from site
-User enters search item:
-  1) This does not have a smart search, it only looks for a match to item string the user selects
-  2) Items with no price listing will not have price key
-
-Program attempts to form novel price analysis:
-  1) Determine low and high pricing.
-  2) Determine novel statistics (min, max, mean)
-  3) Allow user to specify range and return condensed novel statistics
-
+***Use this at your own risk!  Although I have done my best to shield the user from an IP ban from Craigslist, there is no guarantee this will not happen as CL is rather strict on people scraping information from their sites. If this happens, you can appeal to CL (assuming you are not doing anything commercial with this code) and request a removal of the ban. However, I have been successfully using this tool for some time now and have received no further bans***
 
 Future ideas:
     near-term: Identify outliers OR weighted average.
@@ -25,12 +13,7 @@ Future ideas:
     wishlist: Classify $1 price (these are sometimes spam or oddball posts)
               Smart search (experiment with advanced search methods)
     crazy wishlist: Make an autopost function!
-=======
-# CraigslistPriceItRight
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/craigslist_price_it_right`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -50,7 +33,24 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Program Flow:
+User selects which Craigslist site to use (copy/paste, type. Default is set in code to https://seattle.craigslist.org)
+User selects Craigslist category from scraped categories
+Program scrapes all potential instances from site
+User enters search item:
+  1) This does not have a smart search, it only looks for a match to item string the user selects
+  2) Items with no price listing will not have price key
+
+Program attempts to form novel price analysis:
+  1) Determine low and high pricing.
+  2) Determine novel statistics (min, max, mean)
+  3) Allow user to specify range and return condensed novel statistics
+
+  main menu is self-explanatory and interactive
+
+## Limitations
+
+It should be noted that CL on larger sites appears to pull listings from what is immediately visible at the browser level. I stumbled upon this when one of my listings did not appear in furniture nor in the for sale category.  My guess is that stale (or reposts) are only accessible through a search string query and cannot be brought up any other way.  In other words a scraping method will always be limited to more current listing.  While this does not change the intent or dynamic of the program intent, it does add another future layer that will have to do direct queries for a search string in order to truly pull in all items of that kind. Go ahead and prove this to yourself, that is if you have an old listing.  It won't appear in the browse. 
 
 ## Development
 

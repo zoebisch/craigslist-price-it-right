@@ -1,6 +1,3 @@
-require 'pry'
-require_relative './concerns/concerns.rb'
-
 class PriceManager
   attr_accessor :category, :subcategory, :item, :pid, :min, :max, :stats
   attr_reader :url, :menu, :site
@@ -34,7 +31,6 @@ class PriceManager
 
   def call
     process_category
-
     run = true
     while run
       case actions_menu
@@ -51,7 +47,7 @@ class PriceManager
       when "pid"
         process_pid
       when "debug"
-        binding.pry
+        binding.pry #uncomment this line and require 'pry' to allow debug session
       when "q"
         run = false
       end
